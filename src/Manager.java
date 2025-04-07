@@ -1,4 +1,5 @@
 package src;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Manager {
@@ -10,17 +11,22 @@ public class Manager {
         List<Ristorante> ristoranti = FileManager.leggiRistorantiDaCSV();
 
         if (ristoranti.isEmpty()) {
-            System.out.println("❌ Nessun ristorante caricato.");
+            System.out.println("Nessun ristorante caricato.");
         } else {
-            System.out.println("✅ Ristorante caricato correttamente:");
+            System.out.println("Ristorante caricato correttamente:");
             System.out.println(ristoranti.get(0));
         }
+
+       Cliente c = new Cliente("Mario", "Rossi", "MRossi", "password", null, null);
+       List<Cliente> L = new ArrayList<Cliente>();
+       L.add(c);
+       //FileManager.salvaOggetti(FileManager.getFileRecensioni(), L);
     }
         
 
 
     //public Utente login(String username, String password) {}
-        // Login utente
+        
     
 
     //public void registraCliente() {  }

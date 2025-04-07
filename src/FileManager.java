@@ -15,7 +15,6 @@ public class FileManager {
     // === CREAZIONE CARTELLA DATI E FILE BASE ===
     public static void inizializzaFile() {
         try {
-            Files.createDirectories(Paths.get("data"));
 
             if (!Files.exists(Paths.get(FILE_RISTORANTI))) {
                 Files.createFile(Paths.get(FILE_RISTORANTI));
@@ -34,92 +33,83 @@ public class FileManager {
 
     // === LETTURA RISTORANTI DA CSV ORIGINALE ===
     public static List<Ristorante> leggiRistorantiDaCSV() {
-            List<Ristorante> ristoranti = new ArrayList<>();
-        
-            try (BufferedReader br = new BufferedReader(new FileReader("data/michelin_my_maps.csv"))) {
-                String line;
-                int lineNumber = 0;
-        
-                br.readLine(); // Salta intestazione
-        
-                while ((line = br.readLine()) != null) {
-                    lineNumber++;
-        
-                    // Dividi la riga in campi separati da virgolette, tenendo conto delle virgole
-                    String[] c = line.split("(?<!\"),(?!\")"); // Split separando solo le virgole non racchiuse da virgolette
-        
-                    // Puliamo eventuali virgolette iniziali/finali dal primo e ultimo campo
-                    c[0] = c[0].replaceFirst("^\"", "").trim(); // Prima colonna (stringa)
-                    c[c.length - 1] = c[c.length - 1].replaceFirst("\"$", "").trim(); // Ultima colonna (stringa)
-        
-                    if (c.length < 14) {
-                        System.err.println("⚠️ Riga " + lineNumber + " ignorata: campi insufficienti.");
-                        continue;
-                    }
-        
-                    try {
-                        String nome = c[0];
-                        String indirizzo = c[1];
-        
-                        // Location = "Città, Nazione"
-                        String[] loc = c[2].split(",");
-                        String citta = loc.length > 0 ? loc[0].trim() : "";
-                        String nazione = loc.length > 1 ? loc[1].trim() : "";
-        
-                        String tipoCucina = c[4];
-        
-                        // Gestiamo i numeri con virgola, per latitudine e longitudine
-                        double lon = Double.parseDouble(c[5].replace(",", "."));
-                        double lat = Double.parseDouble(c[6].replace(",", "."));
-        
-                        String telefono = c[7];
-                        String url = c[8];
-                        String websiteUrl = c[9];
-                        String award = c[10];
-                        String greenStar = c[11];
-                        String servizi = c[12];
-                        String descrizione = c[13];
-        
-                        Ristorante r = new Ristorante(nome, nazione, citta, indirizzo, lat, lon, tipoCucina,
-                                                      telefono, url, websiteUrl, award, greenStar, servizi, descrizione);
-                        ristoranti.add(r);
-        
-                    } catch (Exception e) {
-                        System.err.println("❌ Riga " + lineNumber + " saltata: " + e.getMessage());
-                    }
+        List<Ristorante> ristoranti = new ArrayList<>();
+    
+        try (BufferedReader br = new BufferedReader(new FileReader("data/michelin_my_maps.csv"))) {
+            String line;
+            int lineNumber = 0;
+    
+            // Salta intestazione
+            br.readLine();
+    
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
+    
+                List<String> campi = parseCSVLine(line);
+    
+                if (campi.size() < 14) {
+                    System.err.println("⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    continue;
                 }
-        
-            } catch (IOException e) {
-                System.err.println("Errore lettura CSV: " + e.getMessage());
+    
+                try {
+                    String nome = campi.get(0);
+                    String indirizzo = campi.get(1);
+                    String location = campi.get(2);
+                    String[] loc = location.split(",");
+                    String citta = loc.length > 0 ? loc[0].trim() : "";
+                    String nazione = loc.length > 1 ? loc[1].trim() : "";
+    
+                    String tipoCucina = campi.get(4);
+                    double lon = Double.parseDouble(campi.get(5).replace(",", "."));
+                    double lat = Double.parseDouble(campi.get(6).replace(",", "."));
+                    String telefono = campi.get(7);
+                    String url = campi.get(8);
+                    String website = campi.get(9);
+                    String award = campi.get(10);
+                    String greenStar = campi.get(11);
+                    String servizi = campi.get(12);
+                    String descrizione = campi.get(13);
+    
+                    Ristorante r = new Ristorante(nome, nazione, citta, indirizzo, lat, lon, tipoCucina,
+                                                  telefono, url, website, award, greenStar, servizi, descrizione);
+                    ristoranti.add(r);
+    
+                } catch (Exception e) {
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
+                }
             }
-        
-            return ristoranti;
-        }
-        
-    
-    
-
-    // === SALVATAGGIO OGGETTI SERIALIZZATI ===
-    public static void salvaOggetti(String filePath, List<?> oggetti) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            oos.writeObject(oggetti);
         } catch (IOException e) {
-            System.err.println("Errore nel salvataggio su file: " + e.getMessage());
+            System.err.println("Errore lettura CSV: " + e.getMessage());
         }
+    
+        return ristoranti;
     }
-
-    @SuppressWarnings("unchecked")
-    public static <T> List<T> caricaOggetti(String filePath) {
-        List<T> lista = new ArrayList<>();
-
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-            lista = (List<T>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("File vuoto o non esistente: " + filePath);
+    
+   
+    private static List<String> parseCSVLine(String line) {
+        List<String> result = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+    
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+    
+            if (c == '\"') {
+                inQuotes = !inQuotes; // alterna l'interno/esterno virgolette
+            } else if (c == ',' && !inQuotes) {
+                result.add(current.toString().trim());
+                current.setLength(0);
+            } else {
+                current.append(c);
+            }
         }
-
-        return lista;
+    
+        result.add(current.toString().trim()); // ultimo campo
+        return result;
     }
+    
+        
 
     // === Percorsi Getter ===
     public static String getFileRistoranti() {

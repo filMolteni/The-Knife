@@ -9,5 +9,15 @@ public abstract class Utente {
     protected LocalDate dataNascita;
     protected String domicilio;
     
+    public Utente(String nome, String cognome, String username, String passwordCifrata, LocalDate dataNascita,
+            String domicilio) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.username = username;
+        this.passwordCifrata = passwordCifrata;
+        this.dataNascita = dataNascita;
+        this.domicilio = domicilio;
+    }
+
     public abstract String getRuolo();
 }
