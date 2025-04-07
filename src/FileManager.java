@@ -2,6 +2,7 @@ package src;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Function;
 
 public class FileManager {
 
@@ -109,7 +110,41 @@ public class FileManager {
         return result;
     }
     
-        
+    public static void salvaOggettiCSV(String filePath, List<? extends CSVWritable> oggetti) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (CSVWritable oggetto : oggetti) {
+                writer.write(oggetto.toCSV());
+                writer.newLine();
+            }
+            System.out.println("Oggetti salvati in formato CSV su " + filePath);
+        } catch (IOException e) {
+            System.err.println("Errore nella scrittura CSV: " + e.getMessage());
+        }
+    }
+
+    public static <T> List<T> caricaOggettiCSV(String filePath, Function<String[], T> parser) {
+    List<T> lista = new ArrayList<>();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            if (!line.trim().isEmpty()) {
+                String[] campi = line.split(",");
+                T oggetto = parser.apply(campi);
+                lista.add(oggetto);
+            }
+        }
+
+        System.out.println("📥 Oggetti caricati da " + filePath);
+    } catch (IOException e) {
+        System.err.println("⚠️ Errore nella lettura CSV: " + e.getMessage());
+    }
+
+    return lista;
+}
+
+    
 
     // === Percorsi Getter ===
     public static String getFileRistoranti() {

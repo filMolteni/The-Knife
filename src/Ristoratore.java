@@ -2,7 +2,7 @@ package src;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Ristoratore extends Utente {
+public class Ristoratore extends Utente implements CSVWritable{
     public Ristoratore(String nome, String cognome, String username, String passwordCifrata, LocalDate dataNascita,
             String domicilio) {
         super(nome, cognome, username, passwordCifrata, dataNascita, domicilio);
@@ -10,6 +10,27 @@ public class Ristoratore extends Utente {
     }
 
     private List<Ristorante> ristorantiGestiti;
+
+    @Override
+    public String toCSV() {
+        return (nome != null ? nome : "") + "," +
+            (cognome != null ? cognome : "") + "," +
+            (username != null ? username : "") + "," +
+            (passwordCifrata != null ? passwordCifrata : "") + "," +
+            (dataNascita != null ? dataNascita.toString() : "1900-01-01") + "," +
+            (domicilio != null ? domicilio : "");
+    }
+
+    @Override
+    public String toString() {
+        return "Ristoratore {" +
+               "nome='" + (nome != null ? nome : "") + '\'' +
+               ", cognome='" + (cognome != null ? cognome : "") + '\'' +
+               ", username='" + (username != null ? username : "") + '\'' +
+               ", data di nascita=" + (dataNascita != null ? dataNascita.toString() : "non disponibile") +
+               ", domicilio='" + (domicilio != null ? domicilio : "") + '\'' +
+               '}';
+    }
 
     @Override
     public String getRuolo() {
