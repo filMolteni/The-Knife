@@ -11,7 +11,7 @@ public class Cliente extends Utente implements CSVWritable {
     // Costruttore
     public Cliente(String nome, String cognome, String username, String passwordCifrata, LocalDate dataNascita,
                    String domicilio) {
-        super(nome, cognome, username, passwordCifrata, dataNascita, domicilio);
+        super(nome, cognome, username, passwordCifrata, dataNascita, domicilio, false);
     }
 
     // Getter e Setter per preferiti

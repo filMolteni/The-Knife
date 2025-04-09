@@ -1,8 +1,11 @@
 package src;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.function.Function;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class FileManager {
 
@@ -35,24 +38,25 @@ public class FileManager {
     // === LETTURA RISTORANTI DA CSV ORIGINALE ===
     public static List<Ristorante> leggiRistorantiDaCSV() {
         List<Ristorante> ristoranti = new ArrayList<>();
-    
+
         try (BufferedReader br = new BufferedReader(new FileReader("data/michelin_my_maps.csv"))) {
             String line;
             int lineNumber = 0;
-    
+
             // Salta intestazione
             br.readLine();
-    
+
             while ((line = br.readLine()) != null) {
                 lineNumber++;
-    
+
                 List<String> campi = parseCSVLine(line);
-    
+
                 if (campi.size() < 14) {
-                    System.err.println("⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    System.err.println(
+                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
                 }
-    
+
                 try {
                     String nome = campi.get(0);
                     String indirizzo = campi.get(1);
@@ -60,7 +64,7 @@ public class FileManager {
                     String[] loc = location.split(",");
                     String citta = loc.length > 0 ? loc[0].trim() : "";
                     String nazione = loc.length > 1 ? loc[1].trim() : "";
-    
+
                     String tipoCucina = campi.get(4);
                     double lon = Double.parseDouble(campi.get(5).replace(",", "."));
                     double lat = Double.parseDouble(campi.get(6).replace(",", "."));
@@ -71,11 +75,11 @@ public class FileManager {
                     String greenStar = campi.get(11);
                     String servizi = campi.get(12);
                     String descrizione = campi.get(13);
-    
+
                     Ristorante r = new Ristorante(nome, nazione, citta, indirizzo, lat, lon, tipoCucina,
-                                                  telefono, url, website, award, greenStar, servizi, descrizione);
+                            telefono, url, website, award, greenStar, servizi, descrizione);
                     ristoranti.add(r);
-    
+
                 } catch (Exception e) {
                     System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
                 }
@@ -83,19 +87,150 @@ public class FileManager {
         } catch (IOException e) {
             System.err.println("Errore lettura CSV: " + e.getMessage());
         }
-    
+
         return ristoranti;
     }
-    
-   
+
+    // === LETTURA UTENTI DA CVS ===
+    public static Map<String, List<Utente>> leggiUtentiDaCSV() {
+        List<Utente> Clienti = new ArrayList<>();
+        List<Utente> Ristoratori = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_UTENTI))) {
+            String line;
+            int lineNumber = 0;
+
+            // Salta intestazione
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
+
+                List<String> campi = parseCSVLine(line);
+
+                if (campi.size() < 14) {
+                    System.err.println(
+                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    continue;
+                }
+
+                try {
+                    String nome = campi.get(0);
+                    String cognome = campi.get(1);
+                    String username = campi.get(2);
+                    String passwordCifrata = campi.get(3);
+                    LocalDate dataNascita = LocalDate.parse(campi.get(4), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    String domicilio = campi.get(5);
+                    // campi(6) positivo -> ristoratore, negativo -> cliente
+                    if (Boolean.parseBoolean(campi.get(6)) == true) {
+                        Ristoratore r = new Ristoratore(nome, cognome, username, passwordCifrata, dataNascita,
+                                domicilio);
+                        Ristoratori.add(r);
+                    } else if (Boolean.parseBoolean(campi.get(6)) == false) {
+                        Cliente c = new Cliente(nome, cognome, username, passwordCifrata, dataNascita, domicilio);
+                        Clienti.add(c);
+                    }
+
+                } catch (Exception e) {
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Errore lettura CSV: " + e.getMessage());
+        }
+        Map<String, List<Utente>> utenti = new HashMap<>();
+        utenti.put("Clienti", Clienti);
+        utenti.put("Ristoratori", Ristoratori);
+
+        return utenti;
+    }
+
+    // === LETTURA RECENSIONI DA CVS ===
+    public static List<Recensione> leggiRecensioniDaCSV() {
+        List<Recensione> Recensioni = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_RECENSIONI))) {
+            String line;
+            int lineNumber = 0;
+
+            // Salta intestazione
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
+
+                List<String> campi = parseCSVLine(line);
+
+                if (campi.size() < 14) {
+                    System.err.println(
+                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    continue;
+                }
+
+                try {
+                    String autore = campi.get(0);
+                    String ristorante = campi.get(1);
+                    int voto = Integer.parseInt(campi.get(2)); // 1-5
+                    String commento = campi.get(3);
+                    LocalDate data = LocalDate.parse(campi.get(4), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    String rispostaRistoratore = campi.get(5);
+                    Recensione r = new Recensione(autore, ristorante, voto, commento, data, rispostaRistoratore);
+                    Recensioni.add(r);
+                } catch (Exception e) {
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Errore lettura CSV: " + e.getMessage());
+        }
+        return Recensioni;
+    }
+
+    // === LETTURA PREFERITI DA CVS ===
+    public static List<Preferito> leggiPreferitiDaCSV() {
+        List<Preferito> Preferiti = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_RECENSIONI))) {
+            String line;
+            int lineNumber = 0;
+
+            // Salta intestazione
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
+
+                List<String> campi = parseCSVLine(line);
+
+                if (campi.size() < 14) {
+                    System.err.println(
+                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    continue;
+                }
+
+                try {
+                    String utente = campi.get(0);
+                    String ristorante = campi.get(1);
+                    Preferito p = new Preferito(utente, ristorante);
+                    Preferiti.add(p);
+                } catch (Exception e) {
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Errore lettura CSV: " + e.getMessage());
+        }
+        return Preferiti;
+    }
+
     private static List<String> parseCSVLine(String line) {
         List<String> result = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean inQuotes = false;
-    
+
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
-    
+
             if (c == '\"') {
                 inQuotes = !inQuotes; // alterna l'interno/esterno virgolette
             } else if (c == ',' && !inQuotes) {
@@ -105,11 +240,11 @@ public class FileManager {
                 current.append(c);
             }
         }
-    
+
         result.add(current.toString().trim()); // ultimo campo
         return result;
     }
-    
+
     public static void salvaOggettiCSV(String filePath, List<? extends CSVWritable> oggetti) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (CSVWritable oggetto : oggetti) {
@@ -123,28 +258,26 @@ public class FileManager {
     }
 
     public static <T> List<T> caricaOggettiCSV(String filePath, Function<String[], T> parser) {
-    List<T> lista = new ArrayList<>();
+        List<T> lista = new ArrayList<>();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-        String line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
 
-        while ((line = reader.readLine()) != null) {
-            if (!line.trim().isEmpty()) {
-                String[] campi = line.split(",");
-                T oggetto = parser.apply(campi);
-                lista.add(oggetto);
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    String[] campi = line.split(",");
+                    T oggetto = parser.apply(campi);
+                    lista.add(oggetto);
+                }
             }
+
+            System.out.println("📥 Oggetti caricati da " + filePath);
+        } catch (IOException e) {
+            System.err.println("⚠️ Errore nella lettura CSV: " + e.getMessage());
         }
 
-        System.out.println("📥 Oggetti caricati da " + filePath);
-    } catch (IOException e) {
-        System.err.println("⚠️ Errore nella lettura CSV: " + e.getMessage());
+        return lista;
     }
-
-    return lista;
-}
-
-    
 
     // === Percorsi Getter ===
     public static String getFileRistoranti() {
