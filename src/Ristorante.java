@@ -1,7 +1,6 @@
 package src;
-import java.io.Serializable;
 
-public class Ristorante implements CSVWritable{
+public class Ristorante implements CSVWritable {
     private String nome;
     private String nazione;
     private String citta;
@@ -13,9 +12,10 @@ public class Ristorante implements CSVWritable{
     private String url;
     private String websiteUrl;
     private String award;
-    private String greenStar;
-    private String servizi;
+    private double greenStar;
+    private Boolean servizi;// delivery e prenotazioni
     private String descrizione;
+    private FasciaPrezzo fasciaPrezzo;
 
     public String getNome() {
         return nome;
@@ -105,19 +105,19 @@ public class Ristorante implements CSVWritable{
         this.award = award;
     }
 
-    public String getGreenStar() {
+    public double getGreenStar() {
         return greenStar;
     }
 
-    public void setGreenStar(String greenStar) {
+    public void setGreenStar(double greenStar) {
         this.greenStar = greenStar;
     }
 
-    public String getServizi() {
+    public Boolean getServizi() {
         return servizi;
     }
 
-    public void setServizi(String servizi) {
+    public void setServizi(Boolean servizi) {
         this.servizi = servizi;
     }
 
@@ -129,10 +129,20 @@ public class Ristorante implements CSVWritable{
         this.descrizione = descrizione;
     }
 
+    public FasciaPrezzo getFasciaPrezzo() {
+        return fasciaPrezzo;
+    }
+
+    public void setFasciaPrezzo(FasciaPrezzo fasciaPrezzo) {
+        this.fasciaPrezzo = fasciaPrezzo;
+    }
+
+    // Costruttore aggiornato
     public Ristorante(String nome, String nazione, String citta, String indirizzo,
                       double latitudine, double longitudine, String tipoCucina,
                       String telefono, String url, String websiteUrl, String award,
-                      String greenStar, String servizi, String descrizione) {
+                      double greenStar, Boolean servizi, String descrizione,
+                      FasciaPrezzo fasciaPrezzo) {
         this.nome = nome;
         this.nazione = nazione;
         this.citta = citta;
@@ -147,15 +157,27 @@ public class Ristorante implements CSVWritable{
         this.greenStar = greenStar;
         this.servizi = servizi;
         this.descrizione = descrizione;
+        this.fasciaPrezzo = fasciaPrezzo;
     }
+
+    // Getters e Setters già presenti (omessi qui per brevità)
 
     @Override
     public String toString() {
-        return String.format("🍽️ %s\n📍 %s, %s (%s)\n🧭 [%.5f, %.5f]\n🍝 Cucina: %s\n📞 Telefono: %s\n🌐 URL: %s\n🏅 Award: %s\n🌱 Green Star: %s\n⚙ Servizi: %s\n📝 Descrizione: %s\n",
-            nome, indirizzo, citta, nazione, latitudine, longitudine, tipoCucina, telefono, url, websiteUrl, award, greenStar, servizi, descrizione);
+        return String.format(
+            "🍽️ %s\n📍 %s, %s (%s)\n🧭 [%.5f, %.5f]\n💶 Fascia: %s\n🍝 Cucina: %s\n📞 Telefono: %s\n🌐 URL: %s\n🌍 Sito: %s\n🏅 Premio: %s\n🌱 Green Star: %.1f\n⚙ Servizi disponibili: %s\n📝 Descrizione: %s\n",
+            nome, indirizzo, citta, nazione,
+            latitudine, longitudine,
+            fasciaPrezzo != null ? fasciaPrezzo.name() : "ND",
+            tipoCucina,
+            telefono, url, websiteUrl,
+            award, greenStar,
+            servizi != null ? (servizi ? "Sì" : "No") : "ND",
+            descrizione
+        );
     }
 
-    // Implementazione del metodo toCSV per serializzare l'oggetto in formato CSV
+    @Override
     public String toCSV() {
         return (nome != null ? nome : "") + "," +
             (nazione != null ? nazione : "") + "," +
@@ -168,9 +190,9 @@ public class Ristorante implements CSVWritable{
             (url != null ? url : "") + "," +
             (websiteUrl != null ? websiteUrl : "") + "," +
             (award != null ? award : "") + "," +
-            (greenStar != null ? greenStar : "") + "," +
-            (servizi != null ? servizi : "") + "," +
-            (descrizione != null ? descrizione : "");
+            greenStar + "," +
+            (servizi != null ? servizi.toString() : "") + "," +
+            (descrizione != null ? descrizione.replace(",", ";") : "") + "," +
+            (fasciaPrezzo != null ? fasciaPrezzo.name() : "");
     }
 }
-

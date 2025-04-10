@@ -8,6 +8,13 @@ public class Cliente extends Utente implements CSVWritable {
     private List<Ristorante> preferiti;
     private List<Recensione> recensioni;
 
+    public Cliente(String nome, String cognome, String username, String passwordCifrata, LocalDate dataNascita,
+            String domicilio, boolean ruolo, List<Ristorante> preferiti, List<Recensione> recensioni) {
+        super(nome, cognome, username, passwordCifrata, dataNascita, domicilio, ruolo);
+        this.preferiti = preferiti;
+        this.recensioni = recensioni;
+    }
+
     // Costruttore
     public Cliente(String nome, String cognome, String username, String passwordCifrata, LocalDate dataNascita,
                    String domicilio) {
@@ -101,10 +108,7 @@ public class Cliente extends Utente implements CSVWritable {
     }
 
     // Metodo getRuolo
-    @Override
-    public String getRuolo() {
-        return "cliente";
-    }
+    
 
     // Metodo toCSV per serializzare l'oggetto Cliente in formato CSV
     @Override
@@ -114,7 +118,7 @@ public class Cliente extends Utente implements CSVWritable {
             (username != null ? username : "") + "," +
             (passwordCifrata != null ? passwordCifrata : "") + "," +
             (dataNascita != null ? dataNascita.toString() : "1900-01-01") + "," +
-            (domicilio != null ? domicilio : "");
+            (domicilio != null ? domicilio : ""+ "," + ruolo);
     }
 }
 

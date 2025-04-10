@@ -11,6 +11,12 @@ public class Ristoratore extends Utente implements CSVWritable{
 
     private List<Ristorante> ristorantiGestiti;
 
+    public Ristoratore(String nome, String cognome, String username, String passwordCifrata, LocalDate dataNascita,
+            String domicilio, boolean ruolo, List<Ristorante> ristorantiGestiti) {
+        super(nome, cognome, username, passwordCifrata, dataNascita, domicilio, ruolo);
+        this.ristorantiGestiti = ristorantiGestiti;
+    }
+
     @Override
     public String toCSV() {
         return (nome != null ? nome : "") + "," +
@@ -18,7 +24,7 @@ public class Ristoratore extends Utente implements CSVWritable{
             (username != null ? username : "") + "," +
             (passwordCifrata != null ? passwordCifrata : "") + "," +
             (dataNascita != null ? dataNascita.toString() : "1900-01-01") + "," +
-            (domicilio != null ? domicilio : "");
+            (domicilio != null ? domicilio : ""+ "," + ruolo);
     }
 
     @Override
@@ -32,9 +38,6 @@ public class Ristoratore extends Utente implements CSVWritable{
                '}';
     }
 
-    @Override
-    public String getRuolo() {
-        return "ristoratore";
-    }
+   
 }
 
