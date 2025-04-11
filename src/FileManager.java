@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class FileManager {
 
     private static final String FILE_RISTORANTI = "data/ristorantiPreferiti.dat";
+    private static final String FILE_RISTORANTI_GESTITI = "data/ristorantiGestiti.dat";
     private static final String FILE_UTENTI = "data/utenti.dat";
     private static final String FILE_RECENSIONI = "data/recensioni.dat";
 
@@ -146,7 +147,6 @@ public class FileManager {
         return utenti;
     }
     
-    
 
     // === LETTURA RECENSIONI DA CVS ===
     public static List<Recensione> leggiRecensioniDaCSV() {
@@ -193,7 +193,7 @@ public class FileManager {
     public static List<Preferito> leggiPreferitiDaCSV() {
         List<Preferito> Preferiti = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_RECENSIONI))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_RISTORANTI))) {
             String line;
             int lineNumber = 0;
 
@@ -224,6 +224,43 @@ public class FileManager {
             System.err.println("Errore lettura CSV: " + e.getMessage());
         }
         return Preferiti;
+    }
+
+    // === LETTURA GESTITI DA CVS ===
+    public static List<Preferito> leggiGestitiDaCSV() {
+        List<Preferito> Gestiti = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_RISTORANTI_GESTITI))) {
+            String line;
+            int lineNumber = 0;
+
+            // Salta intestazione
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
+
+                List<String> campi = parseCSVLine(line);
+
+                if (campi.size() < 14) {
+                    System.err.println(
+                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    continue;
+                }
+
+                try {
+                    String utente = campi.get(0);
+                    String ristorante = campi.get(1);
+                    Preferito p = new Preferito(utente, ristorante);
+                    Gestiti.add(p);
+                } catch (Exception e) {
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Errore lettura CSV: " + e.getMessage());
+        }
+        return Gestiti;
     }
 
     private static List<String> parseCSVLine(String line) {

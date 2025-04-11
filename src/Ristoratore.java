@@ -17,6 +17,14 @@ public class Ristoratore extends Utente implements CSVWritable{
         this.ristorantiGestiti = ristorantiGestiti;
     }
 
+    public List<Ristorante> getRistorantiGestiti() {
+        return ristorantiGestiti;
+    }
+
+    public void setRistorantiGestiti(List<Ristorante> ristorantiGestiti) {
+        this.ristorantiGestiti = ristorantiGestiti;
+    }
+
     @Override
     public String toCSV() {
         return (nome != null ? nome : "") + "," +

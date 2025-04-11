@@ -14,21 +14,18 @@ public class Manager {
         List<Ristorante> ristoranti = FileManager.leggiRistorantiDaCSV();
         List<Utente> utenti = FileManager.leggiUtentiDaCSV();
        
-       
         List<Recensione> recensioni = FileManager.leggiRecensioniDaCSV();
         List<Preferito> preferiti = FileManager.leggiPreferitiDaCSV();
+        List<Preferito> gestiti = FileManager.leggiGestitiDaCSV();
 
-        //una volta convertito utente in cliente scommentare ("unione tabelle" utenti con preferiti e recensioni)
-        //AggiungiPreferiti(C, preferiti, ristoranti);
-        //AggiungiRecensioni(recensioni, C);
         System.out.println(utenti.get(0).toString());
-        //List<Cliente> clienti = filtraClienti();
-        //List<Ristoratore> ristoratori = filtraRistoratori();
+        List<Cliente> clienti = filtraClienti();
+        AggiungiPreferiti(preferiti, clienti, ristoranti);
+        AggiungiRecensioni(recensioni, clienti);
+        List<Ristoratore> ristoratori = filtraRistoratori();
+        AggiungiRistorantiGestiti(gestiti, ristoratori, ristoranti);
 
 
-       
-
-        
         //Utente utenteProva = new Utente("FIL", "MOLTEN", "FilMolteni", "password123", LocalDate.of(1990, 6, 15), "cantu", false);
 
         // Registra l'utente utilizzando la funzione del Manager
@@ -36,7 +33,6 @@ public class Manager {
         
 
     }  
-    
     public void registraUtente(Utente utente) {
         // Carica la lista esistente di utenti dal file CSV
         List<Utente> utenti = FileManager.caricaOggettiCSV(
@@ -68,8 +64,6 @@ public class Manager {
         System.out.println("Utente registrato con i seguenti dati: " + utente.toString());
     }
     
-    
-    
     public List<Ristorante> ricercaRistoranti(String citta, String tipoCucina, FasciaPrezzo f, String greenStar, boolean servizi) {
         List<Ristorante> temp = new ArrayList<>();
     
@@ -94,6 +88,7 @@ public class Manager {
     
         return temp;
     }
+    
     public Utente login(String username, String password) {
         for (Utente utente : utenti) {
             // Confronto username e password decifrata
@@ -106,8 +101,7 @@ public class Manager {
         return null; // Nessun utente trovato con le credenziali fornite
     }
     
-     // aggiungo i preferiti di ogni cliente al suo oggetti
-      public void AggiungiPreferiti(List<Preferito> preferiti, List<Cliente> C, List<Ristorante> ristoranti) {
+    public void AggiungiPreferiti(List<Preferito> preferiti, List<Cliente> C, List<Ristorante> ristoranti) {
         
         // per ogni cliente
         for (Cliente c : C) {
@@ -145,6 +139,31 @@ public class Manager {
             c.setRecensioni(temp);
         }
     }
+    
+    public void AggiungiRistorantiGestiti(List<Preferito> gestiti, List<Ristoratore> R, List<Ristorante> ristoranti) {
+        
+        // per ogni cliente
+        for (Ristoratore r : R) {
+            List<Ristorante> temp = new ArrayList<Ristorante>();
+            // scorro tutti i preferiti e se il nome utente coincide
+            for (Preferito p : gestiti) {
+                if (r.username == p.getUtente()) {
+                    // scorro tutti i ristoranti e inserisco in temp il ristorante con lo stesso
+                    // nome
+                    for (Ristorante ristorante : ristoranti) {
+                        if (p.getRistorante() == ristorante.getNome()) {
+                            temp.add(ristorante);
+                        }
+
+                    }
+                }
+            }
+            // una volta che ho passato tutti i preferiti e ho aggiunto tutti i ristoranti a
+            // temp li assegno all'utente
+            r.setRistorantiGestiti(temp);
+        }
+    }
+
     public List<Cliente> filtraClienti() {
         List<Cliente> clienti = new ArrayList<>();
         for (Utente utente : this.utenti) {
@@ -155,7 +174,6 @@ public class Manager {
         return clienti;
     }
     
-    
     public List<Ristoratore> filtraRistoratori() {
         List<Ristoratore> ristoratori = new ArrayList<>();
         for (Utente utente : this.utenti) {
@@ -165,7 +183,6 @@ public class Manager {
         }
         return ristoratori;
     }
-    
     
     // public Utente login(String username, String password) {}
 
