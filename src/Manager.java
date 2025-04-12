@@ -13,6 +13,61 @@ public class Manager {
     private List<Preferito> gestiti ;
     private List<Cliente> clienti ;
     private List<Ristoratore> ristoratori;
+    public List<Utente> getUtenti() {
+        return utenti;
+    }
+
+    public void setUtenti(List<Utente> utenti) {
+        this.utenti = utenti;
+    }
+
+    public List<Ristorante> getRistoranti() {
+        return ristoranti;
+    }
+
+    public void setRistoranti(List<Ristorante> ristoranti) {
+        this.ristoranti = ristoranti;
+    }
+
+    public List<Recensione> getRecensioni() {
+        return recensioni;
+    }
+
+    public void setRecensioni(List<Recensione> recensioni) {
+        this.recensioni = recensioni;
+    }
+
+    public List<Preferito> getPreferiti() {
+        return preferiti;
+    }
+
+    public void setPreferiti(List<Preferito> preferiti) {
+        this.preferiti = preferiti;
+    }
+
+    public List<Preferito> getGestiti() {
+        return gestiti;
+    }
+
+    public void setGestiti(List<Preferito> gestiti) {
+        this.gestiti = gestiti;
+    }
+
+    public List<Cliente> getClienti() {
+        return clienti;
+    }
+
+    public void setClienti(List<Cliente> clienti) {
+        this.clienti = clienti;
+    }
+
+    public List<Ristoratore> getRistoratori() {
+        return ristoratori;
+    }
+
+    public void setRistoratori(List<Ristoratore> ristoratori) {
+        this.ristoratori = ristoratori;
+    }
     private Utente Logged;
 
     public void avviaApplicazione() {
@@ -24,15 +79,13 @@ public class Manager {
         this.preferiti = FileManager.leggiPreferitiDaCSV();
         this.gestiti = FileManager.leggiGestitiDaCSV();
         this.clienti = filtraClienti();
-        AggiungiPreferiti(preferiti, clienti, ristoranti);
-        AggiungiRecensioni(recensioni, clienti);
+        CaricaDinamicaPreferiti();
+        CaricaDinamicaRecensioni();
         this.ristoratori = filtraRistoratori();
-        AggiungiRistorantiGestiti(gestiti, ristoratori, ristoranti);
+        CaricaDinamicaRistorantiGestiti();
         
-        
-        
-
     }  
+
     public List<Cliente> filtraClienti() {
         List<Cliente> c = new ArrayList<>();
         for (Utente utente : this.utenti) {
@@ -68,6 +121,7 @@ public class Manager {
         }
         return r;
     }
+    
     public void registraUtente(Utente utente) {
         // Carica la lista esistente di utenti dal file CSV
         List<Utente> utenti = FileManager.caricaOggettiCSV(
@@ -98,7 +152,71 @@ public class Manager {
         // Conferma il successo stampando i dettagli dell'utente registrato
         System.out.println("Utente registrato con i seguenti dati: " + utente.toString());
     }
+
+    public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
+        if (!(Logged instanceof Cliente)) {
+            System.out.println("⚠️ Nessun cliente è attualmente loggato.");
+            return;
+        }
     
+        Cliente cliente = (Cliente) Logged;
+    
+        // Inizializza la lista se è null
+        if (cliente.getPreferiti() == null) {
+            cliente.setPreferiti(new ArrayList<>());
+        }
+    
+        List<Ristorante> preferitiCliente = cliente.getPreferiti();
+    
+        boolean giàPresente = preferitiCliente.stream()
+            .anyMatch(r -> r.getNome().equalsIgnoreCase(ristorante.getNome()) &&
+                           r.getIndirizzo().equalsIgnoreCase(ristorante.getIndirizzo()));
+    
+        if (!giàPresente) {
+            preferitiCliente.add(ristorante);
+            this.preferiti.add(new Preferito(cliente.getUsername(), ristorante.getNome())); // aggiorna lista globale
+            FileManager.salvaOggettiCSV(FileManager.getFileRistorantiGestiti(), preferiti); // salva preferiti su file
+            System.out.println("Ristorante aggiunto ai preferiti.");
+        } else {
+            System.out.println("Il ristorante è già nei preferiti.");
+        }
+    }
+    
+    public void aggiungiRecensione(Ristorante ristorante, int voto, String commento) {
+    if (!(Logged instanceof Cliente)) {
+        System.out.println("Solo i clienti possono aggiungere recensioni.");
+        return;
+    }
+
+    Cliente cliente = (Cliente) Logged;
+
+    // Crea nuova recensione
+    Recensione recensione = new Recensione(
+        cliente.getUsername(),
+        ristorante.getNome(),
+        voto,
+        commento,
+        LocalDate.now(),     // data attuale
+        null                 // rispostaRistoratore inizialmente nulla
+    );
+
+    // Aggiunge alla lista personale del cliente
+    if (cliente.getRecensioni() == null) {
+        cliente.setRecensioni(new ArrayList<>());
+    }
+    cliente.getRecensioni().add(recensione);
+
+    // Aggiunge alla lista globale
+    this.recensioni.add(recensione);
+
+    // Salva su file
+    FileManager.salvaOggettiCSV(FileManager.getFileRecensioni(), recensioni);
+
+    System.out.println("Recensione aggiunta con successo per " + ristorante.getNome());
+}
+
+
+
     public List<Ristorante> ricercaRistoranti(String citta, String tipoCucina, FasciaPrezzo f, String greenStar, boolean servizi) {
         List<Ristorante> temp = new ArrayList<>();
     
@@ -137,10 +255,10 @@ public class Manager {
         return null; // Nessun utente trovato con le credenziali fornite
     }
     
-    public void AggiungiPreferiti(List<Preferito> preferiti, List<Cliente> C, List<Ristorante> ristoranti) {
+    public void CaricaDinamicaPreferiti() {
         
         // per ogni cliente
-        for (Cliente c : C) {
+        for (Cliente c : clienti) {
             List<Ristorante> temp = new ArrayList<Ristorante>();
             // scorro tutti i preferiti e se il nome utente coincide
             for (Preferito p : preferiti) {
@@ -161,12 +279,12 @@ public class Manager {
         }
     }
     
-    public void AggiungiRecensioni(List<Recensione> recensione, List<Cliente> C) {
+    public void CaricaDinamicaRecensioni() {
         // per ogni cliente
-        for (Cliente c : C) {
+        for (Cliente c : clienti) {
             List<Recensione> temp = new ArrayList<Recensione>();
             // scorro tutte le recensioni e se il nome utente coincide lo aggiungo alla lista delle sue recensioni
-            for (Recensione r : recensione) {
+            for (Recensione r : recensioni) {
                 if (c.username == r.getAutore()) {
                         temp.add(r);
                 }
@@ -176,10 +294,10 @@ public class Manager {
         }
     }
     
-    public void AggiungiRistorantiGestiti(List<Preferito> gestiti, List<Ristoratore> R, List<Ristorante> ristoranti) {
+    public void CaricaDinamicaRistorantiGestiti() {
         
         // per ogni cliente
-        for (Ristoratore r : R) {
+        for (Ristoratore r : ristoratori) {
             List<Ristorante> temp = new ArrayList<Ristorante>();
             // scorro tutti i preferiti e se il nome utente coincide
             for (Preferito p : gestiti) {

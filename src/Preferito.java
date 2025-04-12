@@ -1,6 +1,6 @@
 package src;
 
-public class Preferito {
+public class Preferito implements CSVWritable{
     private String utente;
     private String ristorante;
     
@@ -24,4 +24,10 @@ public class Preferito {
         this.utente = utente;
         this.ristorante = ristorante;
     }
+    @Override
+    public String toCSV() {
+        return (utente != null ? utente : "") + "," +
+            (ristorante != null ? ristorante : "");
+    }
+
 }
