@@ -23,6 +23,8 @@ public class FileManager {
 
             if (!Files.exists(Paths.get(FILE_RISTORANTI))) {
                 Files.createFile(Paths.get(FILE_RISTORANTI));
+            }if (!Files.exists(Paths.get(FILE_RISTORANTI_GESTITI))) {
+                Files.createFile(Paths.get(FILE_RISTORANTI_GESTITI));
             }
             if (!Files.exists(Paths.get(FILE_UTENTI))) {
                 Files.createFile(Paths.get(FILE_UTENTI));
@@ -116,23 +118,21 @@ public class FileManager {
     
                 List<String> campi = parseCSVLine(line);
     
-                // Verifica che ci siano abbastanza campi
                 if (campi.size() < 7) {
                     System.err.println("⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
                 }
     
                 try {
-                    // Parsing dei campi
                     String nome = campi.get(0);
                     String cognome = campi.get(1);
                     String username = campi.get(2);
                     String passwordCifrata = campi.get(3);
                     LocalDate dataNascita = LocalDate.parse(campi.get(4), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     String domicilio = campi.get(5);
-                    boolean ruolo = Boolean.parseBoolean(campi.get(6));
+                    String ruoloRaw = campi.get(6).trim();
+                    boolean ruolo = ruoloRaw.equals("1");
     
-                    // Crea un nuovo Utente e aggiungilo alla lista
                     Utente utente = new Utente(nome, cognome, username, passwordCifrata, dataNascita, domicilio, ruolo);
                     utenti.add(utente);
     
@@ -146,6 +146,7 @@ public class FileManager {
     
         return utenti;
     }
+    
     
 
     // === LETTURA RECENSIONI DA CVS ===
@@ -311,9 +312,9 @@ public class FileManager {
                 }
             }
 
-            System.out.println("📥 Oggetti caricati da " + filePath);
+            System.out.println("Oggetti caricati da " + filePath);
         } catch (IOException e) {
-            System.err.println("⚠️ Errore nella lettura CSV: " + e.getMessage());
+            System.err.println("Errore nella lettura CSV: " + e.getMessage());
         }
 
         return lista;
@@ -330,5 +331,9 @@ public class FileManager {
 
     public static String getFileRecensioni() {
         return FILE_RECENSIONI;
+    }
+    
+    public static String getFileRistorantiGestiti() {
+        return FILE_RISTORANTI_GESTITI;
     }
 }

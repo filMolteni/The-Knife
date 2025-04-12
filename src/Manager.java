@@ -3,36 +3,71 @@ package src;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class Manager {
     private List<Utente> utenti;
     private List<Ristorante> ristoranti;
+    private List<Recensione> recensioni;
+    private List<Preferito> preferiti;
+    private List<Preferito> gestiti ;
+    private List<Cliente> clienti ;
+    private List<Ristoratore> ristoratori;
+    private Utente Logged;
 
     public void avviaApplicazione() {
         FileManager.inizializzaFile();
-        List<Ristorante> ristoranti = FileManager.leggiRistorantiDaCSV();
-        List<Utente> utenti = FileManager.leggiUtentiDaCSV();
+        this.ristoranti = FileManager.leggiRistorantiDaCSV();
+        this.utenti = FileManager.leggiUtentiDaCSV();
        
-        List<Recensione> recensioni = FileManager.leggiRecensioniDaCSV();
-        List<Preferito> preferiti = FileManager.leggiPreferitiDaCSV();
-        List<Preferito> gestiti = FileManager.leggiGestitiDaCSV();
-
-        System.out.println(utenti.get(0).toString());
-        List<Cliente> clienti = filtraClienti();
+        this.recensioni = FileManager.leggiRecensioniDaCSV();
+        this.preferiti = FileManager.leggiPreferitiDaCSV();
+        this.gestiti = FileManager.leggiGestitiDaCSV();
+        this.clienti = filtraClienti();
         AggiungiPreferiti(preferiti, clienti, ristoranti);
         AggiungiRecensioni(recensioni, clienti);
-        List<Ristoratore> ristoratori = filtraRistoratori();
+        this.ristoratori = filtraRistoratori();
         AggiungiRistorantiGestiti(gestiti, ristoratori, ristoranti);
-
-
-        //Utente utenteProva = new Utente("FIL", "MOLTEN", "FilMolteni", "password123", LocalDate.of(1990, 6, 15), "cantu", false);
-
-        // Registra l'utente utilizzando la funzione del Manager
-        //registraUtente(utenteProva);
+        
+        
         
 
     }  
+    public List<Cliente> filtraClienti() {
+        List<Cliente> c = new ArrayList<>();
+        for (Utente utente : this.utenti) {
+            if (!utente.ruolo) { // false = Cliente
+                Cliente cliente = new Cliente(
+                    utente.nome,
+                    utente.cognome,
+                    utente.username,
+                    utente.passwordCifrata,
+                    utente.dataNascita,
+                    utente.domicilio
+                );
+                c.add(cliente);
+            }
+        }
+        return c;
+    }
+    
+    public List<Ristoratore> filtraRistoratori() {
+        List<Ristoratore> r = new ArrayList<>();
+        for (Utente utente : this.utenti) {
+            if (utente.ruolo) { // true = Ristoratore
+                Ristoratore ristoratore = new Ristoratore(
+                    utente.nome,
+                    utente.cognome,
+                    utente.username,
+                    utente.passwordCifrata,
+                    utente.dataNascita,
+                    utente.domicilio
+                );
+                r.add(ristoratore);
+            }
+        }
+        return r;
+    }
     public void registraUtente(Utente utente) {
         // Carica la lista esistente di utenti dal file CSV
         List<Utente> utenti = FileManager.caricaOggettiCSV(
@@ -94,6 +129,7 @@ public class Manager {
             // Confronto username e password decifrata
             if (utente.getUsername().equals(username) && utente.getPasswordCifrata().equals(password)) {
                 System.out.println("Accesso effettuato con successo! Benvenuto, " + utente.getNome());
+                this.Logged=utente;
                 return utente; // Ritorna l'utente autenticato
             }
         }
@@ -164,31 +200,13 @@ public class Manager {
         }
     }
 
-    public List<Cliente> filtraClienti() {
-        List<Cliente> clienti = new ArrayList<>();
-        for (Utente utente : this.utenti) {
-            if (!utente.ruolo) { // Controlla il ruolo: false per Cliente
-                clienti.add((Cliente) utente);
-            }
-        }
-        return clienti;
+    public Utente getLogged() {
+        return Logged;
+    }
+    public void setLogged(Utente logged) {
+        Logged = logged;
     }
     
-    public List<Ristoratore> filtraRistoratori() {
-        List<Ristoratore> ristoratori = new ArrayList<>();
-        for (Utente utente : this.utenti) {
-            if (utente.ruolo) { // Controlla il ruolo: true per Ristoratore
-                ristoratori.add((Ristoratore) utente);
-            }
-        }
-        return ristoratori;
-    }
     
-    // public Utente login(String username, String password) {}
-
-    // public void registraCliente() { }
-    // public void registraRistoratore() { }
-    // public List<Ristorante> cercaRistoranti() { }
-
-    // Altri metodi gestionali
+   
 }
