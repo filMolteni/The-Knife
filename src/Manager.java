@@ -155,7 +155,7 @@ public class Manager {
 
     public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
         if (!(Logged instanceof Cliente)) {
-            System.out.println("⚠️ Solo un cliente può avere preferiti.");
+            System.out.println("Solo un cliente può avere preferiti.");
             return;
         }
         Cliente cliente = (Cliente) Logged;

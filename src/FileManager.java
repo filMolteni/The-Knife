@@ -54,7 +54,7 @@ public class FileManager {
                 List<String> campi = parseCSVLine(line);
     
                 if (campi.size() < 14) {
-                    System.err.println("⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                    System.err.println("Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
                 }
     
@@ -94,7 +94,7 @@ public class FileManager {
                     ristoranti.add(r);
     
                 } catch (Exception e) {
-                    System.err.println("❌ Riga " + lineNumber + " saltata: " + e.getMessage());
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
@@ -137,7 +137,7 @@ public class FileManager {
                     utenti.add(utente);
     
                 } catch (Exception e) {
-                    System.err.println("❌ Riga " + lineNumber + " saltata: " + e.getMessage());
+                    System.err.println("Riga " + lineNumber + " saltata: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
@@ -167,7 +167,7 @@ public class FileManager {
 
                 if (campi.size() < 14) {
                     System.err.println(
-                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                            "Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
                 }
 
@@ -208,7 +208,7 @@ public class FileManager {
 
                 if (campi.size() < 14) {
                     System.err.println(
-                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                            "Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
                 }
 
@@ -245,7 +245,7 @@ public class FileManager {
 
                 if (campi.size() < 14) {
                     System.err.println(
-                            "⚠️ Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
+                            "Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
                 }
 

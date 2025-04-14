@@ -164,18 +164,25 @@ public class Ristorante implements CSVWritable {
 
     @Override
     public String toString() {
-        return String.format(
-            "🍽️ %s\n📍 %s, %s (%s)\n🧭 [%.5f, %.5f]\n💶 Fascia: %s\n🍝 Cucina: %s\n📞 Telefono: %s\n🌐 URL: %s\n🌍 Sito: %s\n🏅 Premio: %s\n🌱 Green Star: %.1f\n⚙ Servizi disponibili: %s\n📝 Descrizione: %s\n",
-            nome, indirizzo, citta, nazione,
-            latitudine, longitudine,
-            fasciaPrezzo != null ? fasciaPrezzo.name() : "ND",
-            tipoCucina,
-            telefono, url, websiteUrl,
-            award, greenStar,
-            servizi != null ? (servizi ? "Sì" : "No") : "ND",
-            descrizione
-        );
+        return "Ristorante {" +
+                "nome='" + nome + '\'' +
+                ", indirizzo='" + indirizzo + '\'' +
+                ", citta='" + citta + '\'' +
+                ", nazione='" + nazione + '\'' +
+                ", latitudine=" + latitudine +
+                ", longitudine=" + longitudine +
+                ", fasciaPrezzo=" + (fasciaPrezzo != null ? fasciaPrezzo.name() : "ND") +
+                ", tipoCucina='" + tipoCucina + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", url='" + url + '\'' +
+                ", websiteUrl='" + websiteUrl + '\'' +
+                ", award='" + award + '\'' +
+                ", greenStar=" + greenStar +
+                ", servizi=" + (servizi != null ? (servizi ? "Sì" : "No") : "ND") +
+                ", descrizione='" + descrizione + '\'' +
+                '}';
     }
+
 
     @Override
     public String toCSV() {
