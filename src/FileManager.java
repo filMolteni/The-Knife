@@ -157,15 +157,12 @@ public class FileManager {
             String line;
             int lineNumber = 0;
 
-            // Salta intestazione
-            br.readLine();
-
             while ((line = br.readLine()) != null) {
                 lineNumber++;
 
                 List<String> campi = parseCSVLine(line);
 
-                if (campi.size() < 14) {
+                if (campi.size() < 6) {
                     System.err.println(
                             "Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
@@ -198,15 +195,13 @@ public class FileManager {
             String line;
             int lineNumber = 0;
 
-            // Salta intestazione
-            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
 
                 List<String> campi = parseCSVLine(line);
 
-                if (campi.size() < 14) {
+                if (campi.size() < 2) {
                     System.err.println(
                             "Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;
@@ -235,15 +230,14 @@ public class FileManager {
             String line;
             int lineNumber = 0;
 
-            // Salta intestazione
-            br.readLine();
+            
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
 
                 List<String> campi = parseCSVLine(line);
 
-                if (campi.size() < 14) {
+                if (campi.size() < 2) {
                     System.err.println(
                             "Riga " + lineNumber + " ignorata: campi insufficienti (" + campi.size() + ").");
                     continue;

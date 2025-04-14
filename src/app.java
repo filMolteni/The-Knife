@@ -117,12 +117,10 @@ public class app {
                         }
                         break;
                     case "4":
-                        // manager.modificaRecensione(); // TODO
-                        System.out.println("[TODO] Funzione modifica recensione");
+                        manager.modificaRecensione(sc); 
                         break;
                     case "5":
-                        // manager.cancellaRecensione(); // TODO
-                        System.out.println("[TODO] Funzione cancella recensione");
+                        manager.cancellaRecensione(sc); 
                         break;
                     case "6":
                         manager.setLogged(null);
@@ -143,8 +141,7 @@ public class app {
             
                 switch (scelta) {
                     case "1":
-                        // manager.inserisciRistorante(); // TODO
-                        System.out.println("[TODO] Inserisci ristorante");
+                        manager.inserisciRistorante(sc); 
                         break;
                     case "2":
                         // manager.visualizzaERispondiRecensioni(); // TODO

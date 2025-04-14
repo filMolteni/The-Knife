@@ -15,6 +15,26 @@ public class Ristorante implements CSVWritable {
     private double greenStar;
     private Boolean servizi;// delivery e prenotazioni
     private String descrizione;
+    public Ristorante(String nome, String nazione, String citta, String indirizzo, double latitudine,
+            double longitudine, String tipoCucina, String telefono, String url, String websiteUrl, String award,
+            double greenStar, Boolean servizi, String descrizione) {
+        this.nome = nome;
+        this.nazione = nazione;
+        this.citta = citta;
+        this.indirizzo = indirizzo;
+        this.latitudine = latitudine;
+        this.longitudine = longitudine;
+        this.tipoCucina = tipoCucina;
+        this.telefono = telefono;
+        this.url = url;
+        this.websiteUrl = websiteUrl;
+        this.award = award;
+        this.greenStar = greenStar;
+        this.servizi = servizi;
+        this.descrizione = descrizione;
+    }
+
+
     private FasciaPrezzo fasciaPrezzo;
 
     public String getNome() {
