@@ -17,6 +17,10 @@ public class FileManager {
     // CSV iniziale (fornito)
     private static final String CSV_RISTORANTI_INIZIALI = "data/michelin_my_maps.csv";
 
+    public static String getCsvRistorantiIniziali() {
+        return CSV_RISTORANTI_INIZIALI;
+    }
+
     // === CREAZIONE CARTELLA DATI E FILE BASE ===
     public static void inizializzaFile() {
         try {

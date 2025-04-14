@@ -587,8 +587,9 @@ public void inserisciRistorante(Scanner sc) {
         gestiti.add(new Preferito(ristoratore.getUsername(), nuovo.getNome()));
 
         // Salva tutto su file
-        FileManager.salvaOggettiCSV(FileManager.getFileRistoranti(), ristoranti);
+        
         FileManager.salvaOggettiCSV(FileManager.getFileRistorantiGestiti(), gestiti);
+        FileManager.salvaOggettiCSV(FileManager.getCsvRistorantiIniziali(), ristoranti);
 
         System.out.println("Ristorante inserito con successo!");
 
