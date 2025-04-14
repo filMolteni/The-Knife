@@ -132,8 +132,8 @@ public class app {
             
             // === RISTORATORE ===
             } else if (logged instanceof Ristoratore) {
-                System.out.println("[1] Inserisci ristorante"); // TODO
-                System.out.println("[2] Visualizza recensioni dei tuoi ristoranti e rispondi"); // TODO
+                System.out.println("[1] Inserisci ristorante"); 
+                System.out.println("[2] Visualizza recensioni dei tuoi ristoranti e rispondi"); 
                 System.out.println("[3] Visualizza statistiche dei tuoi ristoranti"); // TODO
                 System.out.println("[4] Logout");
                 System.out.print("Scelta: ");
@@ -144,12 +144,10 @@ public class app {
                         manager.inserisciRistorante(sc); 
                         break;
                     case "2":
-                        // manager.visualizzaERispondiRecensioni(); // TODO
-                        System.out.println("[TODO] Visualizza recensioni e rispondi");
+                        manager.visualizzaERispondiRecensioni(sc); 
                         break;
                     case "3":
-                        // manager.statisticheRistoranti(); // TODO
-                        System.out.println("[TODO] Statistiche ristorante");
+                        manager.statisticheRistoranti();                         
                         break;
                     case "4":
                         manager.setLogged(null);

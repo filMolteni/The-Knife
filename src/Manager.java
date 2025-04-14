@@ -597,6 +597,113 @@ public void inserisciRistorante(Scanner sc) {
     }
 }
 
+public void visualizzaERispondiRecensioni(Scanner sc) {
+    if (!(Logged instanceof Ristoratore)) {
+        System.out.println(" Solo un ristoratore può accedere a questa funzione.");
+        return;
+    }
+
+    Ristoratore ristoratore = (Ristoratore) Logged;
+    List<Ristorante> gestiti = ristoratore.getRistorantiGestiti();
+
+    if (gestiti == null || gestiti.isEmpty()) {
+        System.out.println(" Non gestisci ancora nessun ristorante.");
+        return;
+    }
+
+    List<Recensione> recensioniGestite = new ArrayList<>();
+    for (Ristorante r : gestiti) {
+        for (Recensione rec : recensioni) {
+            if (rec.getRistorante().equalsIgnoreCase(r.getNome())) {
+                recensioniGestite.add(rec);
+            }
+        }
+    }
+
+    if (recensioniGestite.isEmpty()) {
+        System.out.println(" Nessuna recensione trovata per i tuoi ristoranti.");
+        return;
+    }
+
+    System.out.println("Recensioni ricevute:");
+    for (int i = 0; i < recensioniGestite.size(); i++) {
+        Recensione r = recensioniGestite.get(i);
+        System.out.printf("[%d] Ristorante: %s | Autore: %s | Voto: %d\n   \"%s\"\n",
+            i + 1, r.getRistorante(), r.getAutore(), r.getVoto(), r.getCommento());
+        if (r.getRispostaRistoratore() != null && !r.getRispostaRistoratore().isEmpty()) {
+            System.out.println("    Risposta già data: \"" + r.getRispostaRistoratore() + "\"\n");
+        } else {
+            System.out.println("    Nessuna risposta ancora.\n");
+        }
+    }
+
+    System.out.print("Inserisci il numero della recensione a cui vuoi rispondere (0 per uscire): ");
+    int scelta;
+    try {
+        scelta = Integer.parseInt(sc.nextLine());
+    } catch (NumberFormatException e) {
+        System.out.println("Input non valido.");
+        return;
+    }
+
+    if (scelta == 0) return;
+    if (scelta < 1 || scelta > recensioniGestite.size()) {
+        System.out.println("Numero fuori range.");
+        return;
+    }
+
+    Recensione selezionata = recensioniGestite.get(scelta - 1);
+
+    if (selezionata.getRispostaRistoratore() != null && !selezionata.getRispostaRistoratore().isEmpty()) {
+        System.out.println("Hai già risposto a questa recensione.");
+        return;
+    }
+
+    System.out.print("Scrivi la tua risposta: ");
+    String risposta = sc.nextLine();
+    selezionata.setRispostaRistoratore(risposta);
+
+    // Salva aggiornamenti su file
+    FileManager.salvaOggettiCSV(FileManager.getFileRecensioni(), recensioni);
+
+    System.out.println("Risposta salvata correttamente.");
+}
+
+public void statisticheRistoranti() {
+    if (!(Logged instanceof Ristoratore)) {
+        System.out.println("Solo un ristoratore può accedere a questa funzione.");
+        return;
+    }
+
+    Ristoratore ristoratore = (Ristoratore) Logged;
+    List<Ristorante> gestiti = ristoratore.getRistorantiGestiti();
+
+    if (gestiti == null || gestiti.isEmpty()) {
+        System.out.println("Non gestisci ancora alcun ristorante.");
+        return;
+    }
+
+    System.out.println("Statistiche dei tuoi ristoranti:");
+
+    for (Ristorante ristorante : gestiti) {
+        String nome = ristorante.getNome();
+
+        List<Recensione> recensioniRistorante = recensioni.stream()
+            .filter(r -> r.getRistorante().equalsIgnoreCase(nome))
+            .toList();
+
+        int numero = recensioniRistorante.size();
+        double media = numero > 0
+            ? recensioniRistorante.stream().mapToInt(Recensione::getVoto).average().orElse(0.0)
+            : 0.0;
+
+        System.out.printf("%s\n", nome);
+        System.out.printf(" Media voti: %.2f\n", media);
+        System.out.printf(" Numero recensioni: %d\n", numero);
+        System.out.println();
+    }
+}
+
 
    
 }
