@@ -13,13 +13,13 @@
 ### 👤 Clienti registrati
 - Definizione e visualizzazione dei **ristoranti preferiti**
 - Inserimento di **recensioni** (1-5 stelle + commento)
-- Modifica e cancellazione delle proprie recensioni *(in sviluppo)*
+- Modifica e cancellazione delle proprie recensioni 
 - Logout
 
 ### 🧑‍🍳 Ristoratori registrati
-- Inserimento di un **nuovo ristorante** *(in sviluppo)*
-- Visualizzazione delle recensioni ricevute e possibilità di rispondere *(in sviluppo)*
-- Visualizzazione di **statistiche** sul proprio ristorante (media voti, n. recensioni) *(in sviluppo)*
+- Inserimento di un **nuovo ristorante** 
+- Visualizzazione delle recensioni ricevute e possibilità di rispondere 
+- Visualizzazione di **statistiche** sul proprio ristorante (media voti, n. recensioni) 
 - Logout
 
 ## 🗂️ Struttura del progetto
