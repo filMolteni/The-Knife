@@ -155,12 +155,11 @@ public class Manager {
 
     public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
         if (!(Logged instanceof Cliente)) {
-            System.out.println("⚠️ Nessun cliente è attualmente loggato.");
+            System.out.println("⚠️ Solo un cliente può avere preferiti.");
             return;
         }
-    
         Cliente cliente = (Cliente) Logged;
-    
+        
         // Inizializza la lista se è null
         if (cliente.getPreferiti() == null) {
             cliente.setPreferiti(new ArrayList<>());
@@ -175,7 +174,7 @@ public class Manager {
         if (!giàPresente) {
             preferitiCliente.add(ristorante);
             this.preferiti.add(new Preferito(cliente.getUsername(), ristorante.getNome())); // aggiorna lista globale
-            FileManager.salvaOggettiCSV(FileManager.getFileRistorantiGestiti(), preferiti); // salva preferiti su file
+            FileManager.salvaOggettiCSV(FileManager.getFileRistoranti(), preferiti); // salva preferiti su file
             System.out.println("Ristorante aggiunto ai preferiti.");
         } else {
             System.out.println("Il ristorante è già nei preferiti.");
@@ -242,18 +241,43 @@ public class Manager {
         return temp;
     }
     
-    public Utente login(String username, String password) {
+    public void login(String username, String password) {
         for (Utente utente : utenti) {
-            // Confronto username e password decifrata
             if (utente.getUsername().equals(username) && utente.getPasswordCifrata().equals(password)) {
-                System.out.println("Accesso effettuato con successo! Benvenuto, " + utente.getNome());
-                this.Logged=utente;
-                return utente; // Ritorna l'utente autenticato
+                Utente utenteAutenticato;
+    
+                if (utente.isRuolo()) {
+                    // true = Cliente
+                    utenteAutenticato = new Cliente(
+                        utente.getNome(),
+                        utente.getCognome(),
+                        utente.getUsername(),
+                        utente.getPasswordCifrata(),
+                        utente.getDataNascita(),
+                        utente.getDomicilio()
+                    );
+                } else {
+                    // false = Ristoratore
+                    utenteAutenticato = new Ristoratore(
+                        utente.getNome(),
+                        utente.getCognome(),
+                        utente.getUsername(),
+                        utente.getPasswordCifrata(),
+                        utente.getDataNascita(),
+                        utente.getDomicilio()
+                    );
+                }
+    
+                this.Logged = utenteAutenticato;
+                System.out.println("Accesso effettuato con successo! Benvenuto, " + utenteAutenticato.getNome());
+                return;
             }
         }
+    
         System.out.println("Credenziali non valide. Riprovare.");
-        return null; // Nessun utente trovato con le credenziali fornite
+        return ;
     }
+    
     
     public void CaricaDinamicaPreferiti() {
         

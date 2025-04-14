@@ -70,8 +70,9 @@ public class app {
                         System.out.println("Opzione non valida.");
                 }
 
-            } else if (logged.isRuolo()) {
-                // CLIENTE
+            }  else if (logged instanceof Cliente) {
+                Cliente c = (Cliente) logged;
+            
                 System.out.println("[1] Aggiungi ai preferiti");
                 System.out.println("[2] Visualizza preferiti");
                 System.out.println("[3] Aggiungi recensione");
@@ -80,7 +81,7 @@ public class app {
                 System.out.println("[6] Logout");
                 System.out.print("Scelta: ");
                 String scelta = sc.nextLine();
-
+            
                 switch (scelta) {
                     case "1":
                         System.out.print("Nome ristorante da aggiungere ai preferiti: ");
@@ -94,7 +95,6 @@ public class app {
                             System.out.println("Ristorante non trovato.");
                         break;
                     case "2":
-                        Cliente c = (Cliente) manager.getLogged();
                         if (c.getPreferiti() != null && !c.getPreferiti().isEmpty())
                             c.getPreferiti().forEach(System.out::println);
                         else
@@ -131,16 +131,16 @@ public class app {
                     default:
                         System.out.println("Opzione non valida.");
                 }
-
-            } else {
-                // RISTORATORE
+            
+            // === RISTORATORE ===
+            } else if (logged instanceof Ristoratore) {
                 System.out.println("[1] Inserisci ristorante"); // TODO
                 System.out.println("[2] Visualizza recensioni dei tuoi ristoranti e rispondi"); // TODO
                 System.out.println("[3] Visualizza statistiche dei tuoi ristoranti"); // TODO
                 System.out.println("[4] Logout");
                 System.out.print("Scelta: ");
                 String scelta = sc.nextLine();
-
+            
                 switch (scelta) {
                     case "1":
                         // manager.inserisciRistorante(); // TODO

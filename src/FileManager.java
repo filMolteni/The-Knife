@@ -131,7 +131,7 @@ public class FileManager {
                     LocalDate dataNascita = LocalDate.parse(campi.get(4), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     String domicilio = campi.get(5);
                     String ruoloRaw = campi.get(6).trim();
-                    boolean ruolo = ruoloRaw.equals("1");
+                    boolean ruolo = Boolean.parseBoolean(ruoloRaw);
     
                     Utente utente = new Utente(nome, cognome, username, passwordCifrata, dataNascita, domicilio, ruolo);
                     utenti.add(utente);
