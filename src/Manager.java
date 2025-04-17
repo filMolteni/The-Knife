@@ -5,426 +5,316 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Classe Manager che gestisce l'interazione tra utenti, ristoranti, recensioni e preferiti.
- * Contiene liste per la gestione dei vari elementi del sistema.
- */
+
 public class Manager {
     private List<Utente> utenti;
     private List<Ristorante> ristoranti;
     private List<Recensione> recensioni;
     private List<Preferito> preferiti;
-    private List<Preferito> gestiti;
-    private List<Cliente> clienti;
+    private List<Preferito> gestiti ;
+    private List<Cliente> clienti ;
     private List<Ristoratore> ristoratori;
-    private Utente logged;
-
-    /**
-     * Restituisce la lista degli utenti.
-     * 
-     * @return Lista di oggetti {@link Utente}.
-     */
+    private Utente Logged;
     public List<Utente> getUtenti() {
         return utenti;
     }
 
-    /**
-     * Imposta la lista degli utenti.
-     * 
-     * @param utenti Lista di utenti da impostare.
-     */
     public void setUtenti(List<Utente> utenti) {
         this.utenti = utenti;
     }
 
-    /**
-     * Restituisce la lista dei ristoranti.
-     * 
-     * @return Lista di oggetti {@link Ristorante}.
-     */
     public List<Ristorante> getRistoranti() {
         return ristoranti;
     }
 
-    /**
-     * Imposta la lista dei ristoranti.
-     * 
-     * @param ristoranti Lista di ristoranti da impostare.
-     */
     public void setRistoranti(List<Ristorante> ristoranti) {
         this.ristoranti = ristoranti;
     }
 
-    /**
-     * Restituisce la lista delle recensioni.
-     * 
-     * @return Lista di oggetti {@link Recensione}.
-     */
     public List<Recensione> getRecensioni() {
         return recensioni;
     }
 
-    /**
-     * Imposta la lista delle recensioni.
-     * 
-     * @param recensioni Lista di recensioni da impostare.
-     */
     public void setRecensioni(List<Recensione> recensioni) {
         this.recensioni = recensioni;
     }
 
-    /**
-     * Restituisce la lista dei ristoranti preferiti.
-     * 
-     * @return Lista di oggetti {@link Preferito}.
-     */
     public List<Preferito> getPreferiti() {
         return preferiti;
     }
 
-    /**
-     * Imposta la lista dei ristoranti preferiti.
-     * 
-     * @param preferiti Lista di preferiti da impostare.
-     */
     public void setPreferiti(List<Preferito> preferiti) {
         this.preferiti = preferiti;
     }
 
-    /**
-     * Restituisce la lista dei ristoranti gestiti.
-     * 
-     * @return Lista di oggetti {@link Preferito}.
-     */
     public List<Preferito> getGestiti() {
         return gestiti;
     }
 
-    /**
-     * Imposta la lista dei ristoranti gestiti.
-     * 
-     * @param gestiti Lista di ristoranti gestiti da impostare.
-     */
     public void setGestiti(List<Preferito> gestiti) {
         this.gestiti = gestiti;
     }
 
-    /**
-     * Restituisce la lista dei clienti.
-     * 
-     * @return Lista di oggetti {@link Cliente}.
-     */
     public List<Cliente> getClienti() {
         return clienti;
     }
 
-    /**
-     * Imposta la lista dei clienti.
-     * 
-     * @param clienti Lista di clienti da impostare.
-     */
     public void setClienti(List<Cliente> clienti) {
         this.clienti = clienti;
     }
 
-    /**
-     * Restituisce la lista dei ristoratori.
-     * 
-     * @return Lista di oggetti {@link Ristoratore}.
-     */
     public List<Ristoratore> getRistoratori() {
         return ristoratori;
     }
 
-    /**
-     * Imposta la lista dei ristoratori.
-     * 
-     * @param ristoratori Lista di ristoratori da impostare.
-     */
     public void setRistoratori(List<Ristoratore> ristoratori) {
         this.ristoratori = ristoratori;
     }
-}
-
     
-/**
- * Avvia l'applicazione inizializzando i file, caricando i dati e filtrando utenti e ristoranti.
- * Questo metodo legge i dati dai file CSV, inizializza le liste e associa i ristoratori e clienti correttamente.
- */
-public void avviaApplicazione() {
-    FileManager.inizializzaFile();
-    this.ristoranti = FileManager.leggiRistorantiDaCSV();
-    this.utenti = FileManager.leggiUtentiDaCSV();
-    this.recensioni = FileManager.leggiRecensioniDaCSV();
-    this.preferiti = FileManager.leggiPreferitiDaCSV();
-    this.gestiti = FileManager.leggiGestitiDaCSV();
-    this.clienti = filtraClienti();
-    CaricaDinamicaPreferiti();
-    CaricaDinamicaRecensioni();
-    this.ristoratori = filtraRistoratori();
-    CaricaDinamicaRistorantiGestiti();
-}
 
-/**
- * Filtra gli utenti per identificare i clienti.
- * 
- * @return Una lista di oggetti {@link Cliente} estratti dagli utenti registrati.
- */
-public List<Cliente> filtraClienti() {
-    List<Cliente> c = new ArrayList<>();
-    for (Utente utente : this.utenti) {
-        if (utente.ruolo) { // true = Cliente
-            Cliente cliente = new Cliente(
-                utente.nome,
-                utente.cognome,
-                utente.username,
-                utente.passwordCifrata,
-                utente.dataNascita,
-                utente.domicilio
-            );
-            c.add(cliente);
-        }
-    }
-    return c;
-}
+    public void avviaApplicazione() {
+        FileManager.inizializzaFile();
+        this.ristoranti = FileManager.leggiRistorantiDaCSV();
+        this.utenti = FileManager.leggiUtentiDaCSV();
+       
+        this.recensioni = FileManager.leggiRecensioniDaCSV();
+        this.preferiti = FileManager.leggiPreferitiDaCSV();
+        this.gestiti = FileManager.leggiGestitiDaCSV();
+        this.clienti = filtraClienti();
+        CaricaDinamicaPreferiti();
+        CaricaDinamicaRecensioni();
+        this.ristoratori = filtraRistoratori();
+        CaricaDinamicaRistorantiGestiti();
+        
+    }  
 
-/**
- * Filtra gli utenti per identificare i ristoratori.
- * 
- * @return Una lista di oggetti {@link Ristoratore} estratti dagli utenti registrati.
- */
-public List<Ristoratore> filtraRistoratori() {
-    List<Ristoratore> r = new ArrayList<>();
-    for (Utente utente : this.utenti) {
-        if (!utente.ruolo) { // false = Ristoratore
-            Ristoratore ristoratore = new Ristoratore(
-                utente.nome,
-                utente.cognome,
-                utente.username,
-                utente.passwordCifrata,
-                utente.dataNascita,
-                utente.domicilio
-            );
-            r.add(ristoratore);
-        }
-    }
-    return r;
-}
-
-/**
- * Registra un nuovo utente e lo salva nel file CSV.
- * 
- * @param utente L'oggetto {@link Utente} da registrare.
- */
-public void registraUtente(Utente utente) {
-    List<Utente> utenti = FileManager.caricaOggettiCSV(
-            FileManager.getFileUtenti(),
-            campi -> {
-                LocalDate dataNascita = (!campi[4].isEmpty())
-                        ? LocalDate.parse(campi[4])
-                        : LocalDate.of(1900, 1, 1);
-
-                return new Utente(
-                        campi[0], campi[1], campi[2], campi[3],
-                        dataNascita, campi[5], Boolean.parseBoolean(campi[6])
+    public List<Cliente> filtraClienti() {
+        List<Cliente> c = new ArrayList<>();
+        for (Utente utente : this.utenti) {
+            if (utente.ruolo) { // true = Cliente
+                Cliente cliente = new Cliente(
+                    utente.nome,
+                    utente.cognome,
+                    utente.username,
+                    utente.passwordCifrata,
+                    utente.dataNascita,
+                    utente.domicilio
                 );
-            });
-
-    utenti.add(utente);
-    FileManager.salvaOggettiCSV(FileManager.getFileUtenti(), utenti);
-    System.out.println("Utente registrato con i seguenti dati: " + utente.toString());
-}
-
-/**
- * Aggiunge un ristorante ai preferiti del cliente attualmente loggato.
- * 
- * @param ristorante L'oggetto {@link Ristorante} da aggiungere ai preferiti.
- */
-public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
-    if (!(Logged instanceof Cliente)) {
-        System.out.println("Solo un cliente può avere preferiti.");
-        return;
+                c.add(cliente);
+            }
+        }
+        return c;
     }
-    Cliente cliente = (Cliente) Logged;
-
-    if (cliente.getPreferiti() == null) {
-        cliente.setPreferiti(new ArrayList<>());
+    
+    public List<Ristoratore> filtraRistoratori() {
+        List<Ristoratore> r = new ArrayList<>();
+        for (Utente utente : this.utenti) {
+            if (!utente.ruolo) { // false = Ristoratore
+                Ristoratore ristoratore = new Ristoratore(
+                    utente.nome,
+                    utente.cognome,
+                    utente.username,
+                    utente.passwordCifrata,
+                    utente.dataNascita,
+                    utente.domicilio
+                );
+                r.add(ristoratore);
+            }
+        }
+        return r;
+    }
+    
+    public void registraUtente(Utente utente) {
+        // Carica la lista esistente di utenti dal file CSV
+        List<Utente> utenti = FileManager.caricaOggettiCSV(
+                FileManager.getFileUtenti(),
+                campi -> {
+                    LocalDate dataNascita = (!campi[4].isEmpty())
+                            ? LocalDate.parse(campi[4])
+                            : LocalDate.of(1900, 1, 1);
+    
+                    // Crea un oggetto generico di tipo Utente
+                    return new Utente(
+                            campi[0], // Nome
+                            campi[1], // Cognome
+                            campi[2], // Username
+                            campi[3], // Password cifrata
+                            dataNascita,
+                            campi[5], // Domicilio
+                            Boolean.parseBoolean(campi[6]) // Ruolo
+                    );
+                });
+    
+        // Aggiunge il nuovo utente alla lista
+        utenti.add(utente);
+    
+        // Salva la lista aggiornata nel file CSV
+        FileManager.salvaOggettiCSV(FileManager.getFileUtenti(), utenti);
+    
+        // Conferma il successo stampando i dettagli dell'utente registrato
+        System.out.println("Utente registrato con i seguenti dati: " + utente.toString());
     }
 
-    List<Ristorante> preferitiCliente = cliente.getPreferiti();
-
-    boolean giàPresente = preferitiCliente.stream()
-        .anyMatch(r -> r.getNome().equalsIgnoreCase(ristorante.getNome()) &&
-                       r.getIndirizzo().equalsIgnoreCase(ristorante.getIndirizzo()));
-
-    if (!giàPresente) {
-        preferitiCliente.add(ristorante);
-        this.preferiti.add(new Preferito(cliente.getUsername(), ristorante.getNome())); 
-        FileManager.salvaOggettiCSV(FileManager.getFileRistoranti(), preferiti);
-        System.out.println("Ristorante aggiunto ai preferiti.");
-    } else {
-        System.out.println("Il ristorante è già nei preferiti.");
+    public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
+        if (!(Logged instanceof Cliente)) {
+            System.out.println("Solo un cliente può avere preferiti.");
+            return;
+        }
+        Cliente cliente = (Cliente) Logged;
+        
+        // Inizializza la lista se è null
+        if (cliente.getPreferiti() == null) {
+            cliente.setPreferiti(new ArrayList<>());
+        }
+    
+        List<Ristorante> preferitiCliente = cliente.getPreferiti();
+    
+        boolean giàPresente = preferitiCliente.stream()
+            .anyMatch(r -> r.getNome().equalsIgnoreCase(ristorante.getNome()) &&
+                           r.getIndirizzo().equalsIgnoreCase(ristorante.getIndirizzo()));
+    
+        if (!giàPresente) {
+            preferitiCliente.add(ristorante);
+            this.preferiti.add(new Preferito(cliente.getUsername(), ristorante.getNome())); // aggiorna lista globale
+            FileManager.salvaOggettiCSV(FileManager.getFileRistoranti(), preferiti); // salva preferiti su file
+            System.out.println("Ristorante aggiunto ai preferiti.");
+        } else {
+            System.out.println("Il ristorante è già nei preferiti.");
+        }
     }
-}
-
-/**
- * Aggiunge una recensione a un ristorante.
- * 
- * @param ristorante L'oggetto {@link Ristorante} a cui aggiungere la recensione.
- * @param voto Il voto assegnato al ristorante (1-5).
- * @param commento Il commento della recensione.
- */
-public void aggiungiRecensione(Ristorante ristorante, int voto, String commento) {
+    
+    public void aggiungiRecensione(Ristorante ristorante, int voto, String commento) {
     if (!(Logged instanceof Cliente)) {
         System.out.println("Solo i clienti possono aggiungere recensioni.");
         return;
     }
 
     Cliente cliente = (Cliente) Logged;
-}
 
+    // Crea nuova recensione
+    Recensione recensione = new Recensione(
+        cliente.getUsername(),
+        ristorante.getNome(),
+        voto,
+        commento,
+        LocalDate.now(),     // data attuale
+        null                 // rispostaRistoratore inizialmente nulla
+    );
 
-/**
- * Cerca ristoranti in base a vari criteri, tra cui città, tipo di cucina, fascia di prezzo, stelle verdi e servizi.
- * 
- * @param citta La città in cui cercare ristoranti (può essere null o vuota).
- * @param tipoCucina Il tipo di cucina desiderato (può essere null o vuoto).
- * @param f La fascia di prezzo desiderata (può essere null).
- * @param greenStar Specifica se si vogliono solo ristoranti con stelle verdi (può essere "true" o "false").
- * @param servizi Indica se i ristoranti devono offrire servizi particolari.
- * @return Una lista di ristoranti che corrispondono ai criteri di ricerca.
- */
-public List<Ristorante> ricercaRistoranti(String citta, String tipoCucina, FasciaPrezzo f, String greenStar, boolean servizi) {
-    List<Ristorante> temp = new ArrayList<>();
-
-    for (Ristorante r : ristoranti) {
-        boolean matchCitta = (citta == null || citta.isEmpty() || r.getCitta().equalsIgnoreCase(citta));
-        boolean matchCucina = (tipoCucina == null || tipoCucina.isEmpty() || 
-                               r.getTipoCucina() != null && r.getTipoCucina().toLowerCase().contains(tipoCucina.toLowerCase()));
-        boolean matchFascia = (f == null || r.getFasciaPrezzo() == f);
-
-        boolean matchGreenStar = true;
-        if (greenStar != null && !greenStar.isEmpty()) {
-            boolean richiesta = greenStar.equalsIgnoreCase("true");
-            matchGreenStar = richiesta ? r.getGreenStar() > 0 : r.getGreenStar() == 0;
-        }
-
-        boolean matchServizi = r.getServizi() != null && r.getServizi() == servizi;
-
-        if (matchCitta && matchCucina && matchFascia && matchGreenStar && matchServizi) {
-            temp.add(r);
-        }
+    // Aggiunge alla lista personale del cliente
+    if (cliente.getRecensioni() == null) {
+        cliente.setRecensioni(new ArrayList<>());
     }
+    cliente.getRecensioni().add(recensione);
 
-    return temp;
+    // Aggiunge alla lista globale
+    this.recensioni.add(recensione);
+
+    // Salva su file
+    FileManager.salvaOggettiCSV(FileManager.getFileRecensioni(), recensioni);
+
+    System.out.println("Recensione aggiunta con successo per " + ristorante.getNome());
 }
 
-/**
- * Esegue il login dell'utente confrontando username e password con i dati salvati.
- * Se l'utente esiste, viene autenticato e associato al ruolo corretto.
- * 
- * @param username Il nome utente per l'accesso.
- * @param password La password per l'autenticazione.
- */
-public void login(String username, String password) {
-    for (Utente utente : utenti) {
-        if (utente.getUsername().equals(username) && utente.getPasswordCifrata().equals(password)) {
-            Utente utenteAutenticato;
 
-            if (utente.isRuolo()) {
-                utenteAutenticato = new Cliente(
-                    utente.getNome(),
-                    utente.getCognome(),
-                    utente.getUsername(),
-                    utente.getPasswordCifrata(),
-                    utente.getDataNascita(),
-                    utente.getDomicilio()
-                );
-            } else {
-                utenteAutenticato = new Ristoratore(
-                    utente.getNome(),
-                    utente.getCognome(),
-                    utente.getUsername(),
-                    utente.getPasswordCifrata(),
-                    utente.getDataNascita(),
-                    utente.getDomicilio()
-                );
+
+    public List<Ristorante> ricercaRistoranti(String citta, String tipoCucina, FasciaPrezzo f, String greenStar, boolean servizi) {
+        List<Ristorante> temp = new ArrayList<>();
+    
+        for (Ristorante r : ristoranti) {
+            boolean matchCitta = (citta == null || citta.isEmpty() || r.getCitta().equalsIgnoreCase(citta));
+            boolean matchCucina = (tipoCucina == null || tipoCucina.isEmpty() || 
+                                   r.getTipoCucina() != null && r.getTipoCucina().toLowerCase().contains(tipoCucina.toLowerCase()));
+            boolean matchFascia = (f == null || r.getFasciaPrezzo() == f);
+    
+            boolean matchGreenStar = true;
+            if (greenStar != null && !greenStar.isEmpty()) {
+                boolean richiesta = greenStar.equalsIgnoreCase("true");
+                matchGreenStar = richiesta ? r.getGreenStar() > 0 : r.getGreenStar() == 0;
             }
-
-            // Carica preferiti, recensioni o ristoranti gestiti
-            completaUtenteLoggato(utenteAutenticato);
-
-            this.Logged = utenteAutenticato;
-            System.out.println("Accesso effettuato con successo! Benvenuto, " + utenteAutenticato.getNome());
-            return;
-        }
-    }
-
-    System.out.println("Credenziali non valide. Riprovare.");
-}
-
-/**
- * Completa il profilo dell'utente loggato associandogli i suoi preferiti, recensioni o ristoranti gestiti.
- * 
- * @param utenteAutenticato L'utente autenticato al login.
- */
-private void completaUtenteLoggato(Utente utenteAutenticato) {
-    if (utenteAutenticato instanceof Cliente) {
-        for (Cliente c : clienti) {
-            if (c.getUsername().equals(utenteAutenticato.getUsername())) {
-                ((Cliente) utenteAutenticato).setPreferiti(c.getPreferiti());
-                ((Cliente) utenteAutenticato).setRecensioni(c.getRecensioni());
-                break;
+    
+            boolean matchServizi = r.getServizi() != null && r.getServizi() == servizi;
+    
+            if (matchCitta && matchCucina && matchFascia && matchGreenStar && matchServizi) {
+                temp.add(r);
             }
         }
-    } else if (utenteAutenticato instanceof Ristoratore) {
-        for (Ristoratore r : ristoratori) {
-            if (r.getUsername().equals(utenteAutenticato.getUsername())) {
-                ((Ristoratore) utenteAutenticato).setRistorantiGestiti(r.getRistorantiGestiti());
-                break;
+    
+        return temp;
+    }
+    
+    public void login(String username, String password) {
+        for (Utente utente : utenti) {
+            if (utente.getUsername().equals(username) && utente.getPasswordCifrata().equals(password)) {
+                Utente utenteAutenticato;
+    
+                if (utente.isRuolo()) {
+                    utenteAutenticato = new Cliente(
+                        utente.getNome(),
+                        utente.getCognome(),
+                        utente.getUsername(),
+                        utente.getPasswordCifrata(),
+                        utente.getDataNascita(),
+                        utente.getDomicilio()
+                    );
+                } else {
+                    utenteAutenticato = new Ristoratore(
+                        utente.getNome(),
+                        utente.getCognome(),
+                        utente.getUsername(),
+                        utente.getPasswordCifrata(),
+                        utente.getDataNascita(),
+                        utente.getDomicilio()
+                    );
+                }
+    
+                // Carica preferiti/recensioni o ristoranti gestiti
+                completaUtenteLoggato(utenteAutenticato);
+    
+                this.Logged = utenteAutenticato;
+                System.out.println("Accesso effettuato con successo! Benvenuto, " + utenteAutenticato.getNome());
+                return;
             }
         }
+    
+        System.out.println("Credenziali non valide. Riprovare.");
     }
-}
-
-/**
- * Carica dinamicamente le recensioni per ciascun cliente in base ai dati presenti nel sistema.
- */
-public void CaricaDinamicaRecensioni() {
-    for (Cliente c : clienti) {
-        List<Recensione> recensioniCliente = new ArrayList<>();
-
-        for (Recensione r : recensioni) {
-            if (r.getAutore() != null && r.getAutore().equals(c.getUsername())) {
-                recensioniCliente.add(r);
+    
+    
+    private void completaUtenteLoggato(Utente utenteAutenticato) {
+        if (utenteAutenticato instanceof Cliente) {
+            for (Cliente c : clienti) {
+                if (c.getUsername().equals(utenteAutenticato.getUsername())) {
+                    ((Cliente) utenteAutenticato).setPreferiti(c.getPreferiti());
+                    ((Cliente) utenteAutenticato).setRecensioni(c.getRecensioni());
+                    break;
+                }
             }
-        }
-
-        c.setRecensioni(recensioniCliente);
-    }
-}
-
-/**
- * Carica dinamicamente i ristoranti preferiti per ciascun cliente in base ai dati presenti nel sistema.
- */
-public void CaricaDinamicaPreferiti() {
-    for (Cliente c : clienti) {
-        List<Ristorante> preferitiCliente = new ArrayList<>();
-
-        for (Preferito p : preferiti) {
-            if (p.getUtente().equals(c.getUsername())) {
-                for (Ristorante r : ristoranti) {
-                    if (r.getNome().equals(p.getRistorante())) {
-                        preferitiCliente.add(r);
-                    }
+        } else if (utenteAutenticato instanceof Ristoratore) {
+            for (Ristoratore r : ristoratori) {
+                if (r.getUsername().equals(utenteAutenticato.getUsername())) {
+                    ((Ristoratore) utenteAutenticato).setRistorantiGestiti(r.getRistorantiGestiti());
+                    break;
                 }
             }
         }
-
-        c.setPreferiti(preferitiCliente);
     }
-}
-
+    
+    public void CaricaDinamicaRecensioni() {
+        for (Cliente c : clienti) {
+            List<Recensione> recensioniCliente = new ArrayList<>();
+    
+            for (Recensione r : recensioni) {
+                if (r.getAutore() != null && r.getAutore().equals(c.getUsername())) {
+                    recensioniCliente.add(r);
+                }
+            }
+    
+            c.setRecensioni(recensioniCliente);
+        }
+    }
+     
+    public void CaricaDinamicaPreferiti() {
         for (Cliente c : clienti) {
             List<Ristorante> preferitiCliente = new ArrayList<>();
     
