@@ -158,6 +158,7 @@ public class Manager {
     public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
         if (!(Logged instanceof Cliente)) {
             System.out.println("Solo un cliente può avere preferiti.");
+            System.out.println("Operazione annullata.");
             return;
         }
         Cliente cliente = (Cliente) Logged;
@@ -372,11 +373,11 @@ public class Manager {
                         rTrovato = new Ristorante(
                             p.getRistorante(), "", "", "",
                             0.0, 0.0, "", "", "", "", "",
-                            0.0, false, ""); // valori placeholder
+                            0.0, false, "", null); // valori placeholder
                         ristoranti.add(rTrovato); // aggiunta alla lista globale
                     }
     
-                    // Aggiunta alla lista personale
+                    // Aggiunta alla lista personale1
                     ristorantiGestiti.add(rTrovato);
                 }
             }
@@ -571,7 +572,7 @@ public void inserisciRistorante(Scanner sc) {
             nome, nazione, citta, indirizzo,
             lat, lon, tipoCucina, telefono,
             url, website, award, greenStar,
-            servizi, descrizione
+            servizi, descrizione, fasciaPrezzo
         );
         nuovo.setFasciaPrezzo(fasciaPrezzo);
 
