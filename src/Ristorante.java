@@ -61,23 +61,129 @@ public class Ristorante implements CSVWritable {
         this.fasciaPrezzo = fasciaPrezzo;
     }
 
-    /**
-     * Restituisce il nome del ristorante.
-     * @return Nome del ristorante.
-     */
+    
+
     public String getNome() {
         return nome;
     }
 
-    /**
-     * Imposta il nome del ristorante.
-     * @param nome Nuovo nome del ristorante.
-     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    // (Ometto gli altri getter e setter per brevità, ma tutti avranno lo stesso stile di Javadoc)
+    public String getNazione() {
+        return nazione;
+    }
+
+    public void setNazione(String nazione) {
+        this.nazione = nazione;
+    }
+
+    public String getCitta() {
+        return citta;
+    }
+
+    public void setCitta(String citta) {
+        this.citta = citta;
+    }
+
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
+    public double getLatitudine() {
+        return latitudine;
+    }
+
+    public void setLatitudine(double latitudine) {
+        this.latitudine = latitudine;
+    }
+
+    public double getLongitudine() {
+        return longitudine;
+    }
+
+    public void setLongitudine(double longitudine) {
+        this.longitudine = longitudine;
+    }
+
+    public String getTipoCucina() {
+        return tipoCucina;
+    }
+
+    public void setTipoCucina(String tipoCucina) {
+        this.tipoCucina = tipoCucina;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getWebsiteUrl() {
+        return websiteUrl;
+    }
+
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+    }
+
+    public String getAward() {
+        return award;
+    }
+
+    public void setAward(String award) {
+        this.award = award;
+    }
+
+    public double getGreenStar() {
+        return greenStar;
+    }
+
+    public void setGreenStar(double greenStar) {
+        this.greenStar = greenStar;
+    }
+
+    public Boolean getServizi() {
+        return servizi;
+    }
+
+    public void setServizi(Boolean servizi) {
+        this.servizi = servizi;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public FasciaPrezzo getFasciaPrezzo() {
+        return fasciaPrezzo;
+    }
+
+    public void setFasciaPrezzo(FasciaPrezzo fasciaPrezzo) {
+        this.fasciaPrezzo = fasciaPrezzo;
+    }
+
+    
 
     /**
      * Restituisce una rappresentazione testuale del ristorante.
