@@ -6,6 +6,22 @@ import java.util.List;
 import java.util.Scanner;
 
 
+/**
+ * La classe Manager è il cuore dell'applicazione e si occupa della gestione delle funzionalità principali.
+ * Essa coordina le operazioni relative a utenti, ristoranti, recensioni, preferiti e altre entità del sistema.
+ * 
+ * Responsabilità principali:
+ * - Gestione degli utenti: registrazione, login, filtraggio tra clienti e ristoratori.
+ * - Gestione dei ristoranti: inserimento, ricerca e associazione con ristoratori.
+ * - Gestione delle recensioni: aggiunta, modifica, cancellazione e risposta da parte dei ristoratori.
+ * - Gestione dei preferiti: aggiunta e caricamento dinamico per i clienti.
+ * - Caricamento e salvataggio dei dati: interazione con il FileManager per leggere e scrivere dati su file CSV.
+ * - Statistiche: calcolo di statistiche sui ristoranti gestiti dai ristoratori.
+ * 
+ * La classe utilizza una combinazione di liste per mantenere in memoria le entità principali e
+ * metodi per sincronizzare i dati con i file persistenti. Inoltre, fornisce funzionalità specifiche
+ * per i ruoli di Cliente e Ristoratore, garantendo un'esperienza personalizzata per ciascun tipo di utente.
+ */
 public class Manager {
     private List<Utente> utenti;
     private List<Ristorante> ristoranti;
