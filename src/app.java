@@ -3,6 +3,9 @@ package src;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe principale che avvia l'applicazione e gestisce l'interfaccia utente.
+ */
 public class app {
     public static void main(String[] args) {
         Manager manager = new Manager();
@@ -15,6 +18,9 @@ public class app {
             Utente logged = manager.getLogged();
 
             if (logged == null) {
+                /**
+                 * Se nessun utente è loggato, mostra il menu per utenti anonimi.
+                 */
                 System.out.println("[1] Visualizza ristoranti");
                 System.out.println("[2] Visualizza recensioni anonime");
                 System.out.println("[3] Registrati");
@@ -25,14 +31,23 @@ public class app {
 
                 switch (scelta) {
                     case "1":
+                        /**
+                         * Visualizza la lista dei ristoranti disponibili.
+                         */
                         for (Ristorante r : manager.getRistoranti())
                             System.out.println(r);
                         break;
                     case "2":
+                        /**
+                         * Mostra le recensioni anonime.
+                         */
                         for (Recensione rec : manager.getRecensioni())
                             System.out.println(rec);
                         break;
                     case "3":
+                        /**
+                         * Permette all'utente di registrarsi.
+                         */
                         System.out.print("Nome: ");
                         String nome = sc.nextLine();
                         System.out.print("Cognome: ");
@@ -57,6 +72,9 @@ public class app {
                         manager.registraUtente(nuovo);
                         break;
                     case "4":
+                        /**
+                         * Consente all'utente di effettuare il login.
+                         */
                         System.out.print("Username: ");
                         String user = sc.nextLine();
                         System.out.print("Password: ");
@@ -69,21 +87,25 @@ public class app {
                     default:
                         System.out.println("Opzione non valida.");
                 }
-
-            }  else if (logged instanceof Cliente) {
+            } else if (logged instanceof Cliente) {
+                /**
+                 * Menu dedicato ai clienti loggati.
+                 */
                 Cliente c = (Cliente) logged;
-            
                 System.out.println("[1] Aggiungi ai preferiti");
                 System.out.println("[2] Visualizza preferiti");
                 System.out.println("[3] Aggiungi recensione");
-                System.out.println("[4] Modifica recensione"); // TODO
-                System.out.println("[5] Cancella recensione"); // TODO
+                System.out.println("[4] Modifica recensione");
+                System.out.println("[5] Cancella recensione");
                 System.out.println("[6] Logout");
                 System.out.print("Scelta: ");
                 String scelta = sc.nextLine();
-            
+
                 switch (scelta) {
                     case "1":
+                        /**
+                         * Permette al cliente di aggiungere un ristorante ai preferiti.
+                         */
                         System.out.print("Nome ristorante da aggiungere ai preferiti: ");
                         String nomeR = sc.nextLine();
                         Ristorante r = manager.getRistoranti().stream()
@@ -95,12 +117,18 @@ public class app {
                             System.out.println("Ristorante non trovato.");
                         break;
                     case "2":
+                        /**
+                         * Visualizza i ristoranti preferiti del cliente.
+                         */
                         if (c.getPreferiti() != null && !c.getPreferiti().isEmpty())
                             c.getPreferiti().forEach(System.out::println);
                         else
                             System.out.println("Nessun preferito presente.");
                         break;
                     case "3":
+                        /**
+                         * Permette al cliente di aggiungere una recensione.
+                         */
                         System.out.print("Nome ristorante: ");
                         String nomeRest = sc.nextLine();
                         Ristorante rest = manager.getRistoranti().stream()
@@ -123,33 +151,6 @@ public class app {
                         manager.cancellaRecensione(sc); 
                         break;
                     case "6":
-                        manager.setLogged(null);
-                        System.out.println("Logout effettuato.");
-                        break;
-                    default:
-                        System.out.println("Opzione non valida.");
-                }
-            
-            // === RISTORATORE ===
-            } else if (logged instanceof Ristoratore) {
-                System.out.println("[1] Inserisci ristorante"); 
-                System.out.println("[2] Visualizza recensioni dei tuoi ristoranti e rispondi"); 
-                System.out.println("[3] Visualizza statistiche dei tuoi ristoranti"); // TODO
-                System.out.println("[4] Logout");
-                System.out.print("Scelta: ");
-                String scelta = sc.nextLine();
-            
-                switch (scelta) {
-                    case "1":
-                        manager.inserisciRistorante(sc); 
-                        break;
-                    case "2":
-                        manager.visualizzaERispondiRecensioni(sc); 
-                        break;
-                    case "3":
-                        manager.statisticheRistoranti();                         
-                        break;
-                    case "4":
                         manager.setLogged(null);
                         System.out.println("Logout effettuato.");
                         break;

@@ -7,6 +7,50 @@ import java.util.function.Function;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * La classe FileManager fornisce metodi di utilità per la gestione dei file e 
+ * la lettura/scrittura di dati in formato CSV. Include metodi per inizializzare 
+ * i file, leggere dati da file CSV e salvare oggetti in file CSV.
+ * 
+ * <p>Gestisce i seguenti tipi di dati:
+ * - Ristoranti (ristoranti)
+ * - Utenti (utenti)
+ * - Recensioni (recensioni)
+ * - Preferiti (preferiti)
+ * - Ristoranti gestiti (gestiti)
+ * 
+ * <p>Le funzionalità principali includono:
+ * - Inizializzazione dei file richiesti se non esistono.
+ * - Parsing di file CSV per creare oggetti.
+ * - Salvataggio di oggetti in file CSV.
+ * 
+ * <p>Costanti:
+ * - FILE_RISTORANTI: Percorso del file che memorizza i ristoranti preferiti.
+ * - FILE_RISTORANTI_GESTITI: Percorso del file che memorizza i ristoranti gestiti.
+ * - FILE_UTENTI: Percorso del file che memorizza i dati degli utenti.
+ * - FILE_RECENSIONI: Percorso del file che memorizza le recensioni.
+ * - CSV_RISTORANTI_INIZIALI: Percorso del file CSV iniziale contenente i dati dei ristoranti.
+ * 
+ * <p>Metodi:
+ * - `inizializzaFile()`: Garantisce che tutti i file richiesti esistano.
+ * - `leggiRistorantiDaCSV()`: Legge i dati dei ristoranti dal file CSV iniziale.
+ * - `leggiUtentiDaCSV()`: Legge i dati degli utenti dal file CSV degli utenti.
+ * - `leggiRecensioniDaCSV()`: Legge i dati delle recensioni dal file CSV delle recensioni.
+ * - `leggiPreferitiDaCSV()`: Legge i ristoranti preferiti dal file CSV dei preferiti.
+ * - `leggiGestitiDaCSV()`: Legge i ristoranti gestiti dal file CSV dei gestiti.
+ * - `parseCSVLine(String line)`: Analizza una singola riga di dati CSV in una lista di campi.
+ * - `salvaOggettiCSV(String filePath, List<? extends CSVWritable> oggetti)`: Salva una lista di oggetti in un file CSV.
+ * - `caricaOggettiCSV(String filePath, Function<String[], T> parser)`: Carica oggetti da un file CSV utilizzando una funzione parser.
+ * 
+ * <p>Metodi getter sono forniti per accedere ai percorsi dei file:
+ * - `getFileRistoranti()`
+ * - `getFileUtenti()`
+ * - `getFileRecensioni()`
+ * - `getFileRistorantiGestiti()`
+ * - `getCsvRistorantiIniziali()`
+ * 
+ * <p>Le eccezioni vengono gestite in modo appropriato, con messaggi di errore stampati sulla console.
+ */
 public class FileManager {
 
     private static final String FILE_RISTORANTI = "data/ristorantiPreferiti.dat";
@@ -17,6 +61,10 @@ public class FileManager {
     // CSV iniziale (fornito)
     private static final String CSV_RISTORANTI_INIZIALI = "data/michelin_my_maps.csv";
 
+    
+    /** 
+     * @return String
+     */
     public static String getCsvRistorantiIniziali() {
         return CSV_RISTORANTI_INIZIALI;
     }
