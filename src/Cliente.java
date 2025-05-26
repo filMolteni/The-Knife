@@ -8,7 +8,7 @@ import java.util.List;
  * Implementa l'interfaccia CSVWritable per la serializzazione in formato CSV.
  * Contiene informazioni sui ristoranti preferiti e sulle recensioni effettuate.
  */
-public class Cliente extends Utente implements CSVWritable {
+public class Cliente extends Utente {
     private List<Ristorante> preferiti;
     private List<Recensione> recensioni;
 
@@ -21,7 +21,7 @@ public class Cliente extends Utente implements CSVWritable {
      * @param passwordCifrata Password cifrata del cliente.
      * @param dataNascita Data di nascita del cliente.
      * @param domicilio Domicilio del cliente.
-     * @param ruolo Ruolo del cliente (false, perché è un cliente).
+     * @param ruolo Ruolo del cliente (false, perché e' un cliente).
      * @param preferiti Lista dei ristoranti preferiti.
      * @param recensioni Lista delle recensioni fatte dal cliente.
      */

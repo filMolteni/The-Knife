@@ -6,7 +6,7 @@ import java.util.List;
  * Classe che rappresenta un Ristoratore, estendendo la classe Utente.
  * Implementa l'interfaccia CSVWritable per la serializzazione in formato CSV.
  */
-public class Ristoratore extends Utente implements CSVWritable {
+public class Ristoratore extends Utente {
 
     private List<Ristorante> ristorantiGestiti;
 

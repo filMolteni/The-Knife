@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 
 /**
- * La classe Manager è il cuore dell'applicazione e si occupa della gestione delle funzionalità principali.
- * Essa coordina le operazioni relative a utenti, ristoranti, recensioni, preferiti e altre entità del sistema.
+ * La classe Manager e' il cuore dell'applicazione e si occupa della gestione delle funzionalita' principali.
+ * Essa coordina le operazioni relative a utenti, ristoranti, recensioni, preferiti e altre entita' del sistema.
  * 
- * Responsabilità principali:
+ * Responsabilita' principali:
  * - Gestione degli utenti: registrazione, login, filtraggio tra clienti e ristoratori.
  * - Gestione dei ristoranti: inserimento, ricerca e associazione con ristoratori.
  * - Gestione delle recensioni: aggiunta, modifica, cancellazione e risposta da parte dei ristoratori.
@@ -18,8 +18,8 @@ import java.util.Scanner;
  * - Caricamento e salvataggio dei dati: interazione con il FileManager per leggere e scrivere dati su file CSV.
  * - Statistiche: calcolo di statistiche sui ristoranti gestiti dai ristoratori.
  * 
- * La classe utilizza una combinazione di liste per mantenere in memoria le entità principali e
- * metodi per sincronizzare i dati con i file persistenti. Inoltre, fornisce funzionalità specifiche
+ * La classe utilizza una combinazione di liste per mantenere in memoria le entita' principali e
+ * metodi per sincronizzare i dati con i file persistenti. Inoltre, fornisce funzionalita' specifiche
  * per i ruoli di Cliente e Ristoratore, garantendo un'esperienza personalizzata per ciascun tipo di utente.
  */
 public class Manager {
@@ -87,7 +87,12 @@ public class Manager {
         this.ristoratori = ristoratori;
     }
     
-
+    /**
+     * una volta invocato il manager, che ha il compito di gestire tutti dati 
+     * prende da ogni file i dati e li trasferisce in delle liste come i ristoranti e gli utenti
+     * poi usanto i dati dei file "intermedi" come i ristotantiPreferiti associa i dati degli utenti a quelli dei ristoranti
+     * in questo modo una volta avviato il programma i dati sono tutti pronti per essere utilizzati in maniera semplice e veloce
+    */
     public void avviaApplicazione() {
         FileManager.inizializzaFile();
         this.ristoranti = FileManager.leggiRistorantiDaCSV();
@@ -179,24 +184,24 @@ public class Manager {
         }
         Cliente cliente = (Cliente) Logged;
         
-        // Inizializza la lista se è null
+        // Inizializza la lista se e' null
         if (cliente.getPreferiti() == null) {
             cliente.setPreferiti(new ArrayList<>());
         }
     
         List<Ristorante> preferitiCliente = cliente.getPreferiti();
     
-        boolean giàPresente = preferitiCliente.stream()
+        boolean giaPresente = preferitiCliente.stream()
             .anyMatch(r -> r.getNome().equalsIgnoreCase(ristorante.getNome()) &&
                            r.getIndirizzo().equalsIgnoreCase(ristorante.getIndirizzo()));
     
-        if (!giàPresente) {
+        if (!giaPresente) {
             preferitiCliente.add(ristorante);
             this.preferiti.add(new Preferito(cliente.getUsername(), ristorante.getNome())); // aggiorna lista globale
             FileManager.salvaOggettiCSV(FileManager.getFileRistoranti(), preferiti); // salva preferiti su file
             System.out.println("Ristorante aggiunto ai preferiti.");
         } else {
-            System.out.println("Il ristorante è già nei preferiti.");
+            System.out.println("Il ristorante e' gia' nei preferiti.");
         }
     }
     
@@ -535,7 +540,7 @@ public void inserisciRistorante(Scanner sc) {
         System.out.print("Indirizzo: ");
         String indirizzo = sc.nextLine();
 
-        System.out.print("Città: ");
+        System.out.print("Citta': ");
         String citta = sc.nextLine();
 
         System.out.print("Nazione: ");
@@ -649,7 +654,7 @@ public void visualizzaERispondiRecensioni(Scanner sc) {
         System.out.printf("[%d] Ristorante: %s | Autore: %s | Voto: %d\n   \"%s\"\n",
             i + 1, r.getRistorante(), r.getAutore(), r.getVoto(), r.getCommento());
         if (r.getRispostaRistoratore() != null && !r.getRispostaRistoratore().isEmpty()) {
-            System.out.println("    Risposta già data: \"" + r.getRispostaRistoratore() + "\"\n");
+            System.out.println("    Risposta gia' data: \"" + r.getRispostaRistoratore() + "\"\n");
         } else {
             System.out.println("    Nessuna risposta ancora.\n");
         }
@@ -673,7 +678,7 @@ public void visualizzaERispondiRecensioni(Scanner sc) {
     Recensione selezionata = recensioniGestite.get(scelta - 1);
 
     if (selezionata.getRispostaRistoratore() != null && !selezionata.getRispostaRistoratore().isEmpty()) {
-        System.out.println("Hai già risposto a questa recensione.");
+        System.out.println("Hai gia' risposto a questa recensione.");
         return;
     }
 

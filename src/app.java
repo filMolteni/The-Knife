@@ -1,6 +1,5 @@
 package src;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -19,7 +18,7 @@ public class app {
 
             if (logged == null) {
                 /**
-                 * Se nessun utente è loggato, mostra il menu per utenti anonimi.
+                 * Se nessun utente e' loggato, mostra il menu per utenti anonimi.
                  */
                 System.out.println("[1] Visualizza ristoranti");
                 System.out.println("[2] Visualizza recensioni anonime");

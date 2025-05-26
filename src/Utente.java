@@ -16,7 +16,7 @@ public class Utente implements CSVWritable {
 
     /**
      * Restituisce il ruolo dell'utente.
-     * @return true se l'utente è un ristoratore, false se è un cliente.
+     * @return true se l'utente e' un ristoratore, false se e' un cliente.
      */
     public boolean isRuolo() {
         return ruolo;
@@ -24,7 +24,7 @@ public class Utente implements CSVWritable {
 
     /**
      * Imposta il ruolo dell'utente.
-     * @param ruolo true se l'utente è un ristoratore, false se è un cliente.
+     * @param ruolo true se l'utente e' un ristoratore, false se e' un cliente.
      */
     public void setRuolo(boolean ruolo) {
         this.ruolo = ruolo;

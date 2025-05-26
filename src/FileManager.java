@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * La classe FileManager fornisce metodi di utilità per la gestione dei file e 
+ * La classe FileManager fornisce metodi di utilita' per la gestione dei file e 
  * la lettura/scrittura di dati in formato CSV. Include metodi per inizializzare 
  * i file, leggere dati da file CSV e salvare oggetti in file CSV.
  * 
@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
  * - Preferiti (preferiti)
  * - Ristoranti gestiti (gestiti)
  * 
- * <p>Le funzionalità principali includono:
+ * <p>Le funzionalita' principali includono:
  * - Inizializzazione dei file richiesti se non esistono.
  * - Parsing di file CSV per creare oggetti.
  * - Salvataggio di oggetti in file CSV.

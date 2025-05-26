@@ -27,7 +27,7 @@ public class Ristorante implements CSVWritable {
      *
      * @param nome Nome del ristorante.
      * @param nazione Nazione in cui si trova il ristorante.
-     * @param citta Città in cui si trova il ristorante.
+     * @param citta Citta' in cui si trova il ristorante.
      * @param indirizzo Indirizzo del ristorante.
      * @param latitudine Latitudine geografica del ristorante.
      * @param longitudine Longitudine geografica del ristorante.

@@ -2,7 +2,7 @@ package src;
 
 /**
  * Enumerazione che rappresenta le fasce di prezzo dei ristoranti.
- * Ogni fascia è associata a un simbolo e a un nome descrittivo per l'utente.
+ * Ogni fascia e' associata a un simbolo e a un nome descrittivo per l'utente.
  */
 public enum FasciaPrezzo {
     ECONOMICA("€", "economica"),
