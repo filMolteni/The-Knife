@@ -63,122 +63,212 @@ public class Ristorante implements CSVWritable {
 
     
 
+    /** 
+     * @return String
+     */
     public String getNome() {
         return nome;
     }
 
+    /** 
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /** 
+     * @return String
+     */
     public String getNazione() {
         return nazione;
     }
 
+    /** 
+     * @param nazione
+     */
     public void setNazione(String nazione) {
         this.nazione = nazione;
     }
 
+    /** 
+     * @return String
+     */
     public String getCitta() {
         return citta;
     }
 
+    /** 
+     * @param citta
+     */
     public void setCitta(String citta) {
         this.citta = citta;
     }
 
+    /** 
+     * @return String
+     */
     public String getIndirizzo() {
         return indirizzo;
     }
 
+    /** 
+     * @param indirizzo
+     */
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
 
+    /** 
+     * @return double
+     */
     public double getLatitudine() {
         return latitudine;
     }
 
+    /** 
+     * @param latitudine
+     */
     public void setLatitudine(double latitudine) {
         this.latitudine = latitudine;
     }
 
+    /** 
+     * @return double
+     */
     public double getLongitudine() {
         return longitudine;
     }
 
+    /** 
+     * @param longitudine
+     */
     public void setLongitudine(double longitudine) {
         this.longitudine = longitudine;
     }
 
+    /** 
+     * @return String
+     */
     public String getTipoCucina() {
         return tipoCucina;
     }
 
+    /** 
+     * @param tipoCucina
+     */
     public void setTipoCucina(String tipoCucina) {
         this.tipoCucina = tipoCucina;
     }
 
+    /** 
+     * @return String
+     */
     public String getTelefono() {
         return telefono;
     }
 
+    /** 
+     * @param telefono
+     */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
+    /** 
+     * @return String
+     */
     public String getUrl() {
         return url;
     }
 
+    /** 
+     * @param url
+     */
     public void setUrl(String url) {
         this.url = url;
     }
 
+    /** 
+     * @return String
+     */
     public String getWebsiteUrl() {
         return websiteUrl;
     }
 
+    /** 
+     * @param websiteUrl
+     */
     public void setWebsiteUrl(String websiteUrl) {
         this.websiteUrl = websiteUrl;
     }
 
+    /** 
+     * @return String
+     */
     public String getAward() {
         return award;
     }
 
+    /** 
+     * @param award
+     */
     public void setAward(String award) {
         this.award = award;
     }
 
+    /** 
+     * @return double
+     */
     public double getGreenStar() {
         return greenStar;
     }
 
+    /** 
+     * @param greenStar
+     */
     public void setGreenStar(double greenStar) {
         this.greenStar = greenStar;
     }
 
+    /** 
+     * @return Boolean
+     */
     public Boolean getServizi() {
         return servizi;
     }
 
+    /** 
+     * @param servizi
+     */
     public void setServizi(Boolean servizi) {
         this.servizi = servizi;
     }
 
+    /** 
+     * @return String
+     */
     public String getDescrizione() {
         return descrizione;
     }
 
+    /** 
+     * @param descrizione
+     */
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
 
+    /** 
+     * @return FasciaPrezzo
+     */
     public FasciaPrezzo getFasciaPrezzo() {
         return fasciaPrezzo;
     }
 
+    /** 
+     * @param fasciaPrezzo
+     */
     public void setFasciaPrezzo(FasciaPrezzo fasciaPrezzo) {
         this.fasciaPrezzo = fasciaPrezzo;
     }
@@ -233,5 +323,15 @@ public class Ristorante implements CSVWritable {
                 (servizi != null ? servizi.toString() : "") + "," +
                 (descrizione != null ? descrizione.replace(",", ";") : "") + "," +
                 (fasciaPrezzo != null ? fasciaPrezzo.name() : "");
+    }
+
+
+
+    /** 
+     * @return Utente
+     */
+    public Utente getGestore() {
+       
+        throw new UnsupportedOperationException("Unimplemented method 'getGestore'");
     }
 }

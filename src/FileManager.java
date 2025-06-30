@@ -90,6 +90,9 @@ public class FileManager {
         }
     }
 
+    /** 
+     * @return List<Ristorante>
+     */
     public static List<Ristorante> leggiRistorantiDaCSV() {
         List<Ristorante> ristoranti = new ArrayList<>();
     
@@ -157,6 +160,9 @@ public class FileManager {
     }
     
 
+    /** 
+     * @return List<Utente>
+     */
     // === LETTURA UTENTI DA CVS ===
     public static List<Utente> leggiUtentiDaCSV() {
         List<Utente> utenti = new ArrayList<>();
@@ -201,6 +207,9 @@ public class FileManager {
     
     
 
+    /** 
+     * @return List<Recensione>
+     */
     // === LETTURA RECENSIONI DA CVS ===
     public static List<Recensione> leggiRecensioniDaCSV() {
         List<Recensione> Recensioni = new ArrayList<>();
@@ -239,6 +248,9 @@ public class FileManager {
         return Recensioni;
     }
 
+    /** 
+     * @return List<Preferito>
+     */
     // === LETTURA PREFERITI DA CVS ===
     public static List<Preferito> leggiPreferitiDaCSV() {
         List<Preferito> Preferiti = new ArrayList<>();
@@ -274,6 +286,9 @@ public class FileManager {
         return Preferiti;
     }
 
+    /** 
+     * @return List<Preferito>
+     */
     // === LETTURA GESTITI DA CVS ===
     public static List<Preferito> leggiGestitiDaCSV() {
         List<Preferito> Gestiti = new ArrayList<>();
@@ -310,6 +325,10 @@ public class FileManager {
         return Gestiti;
     }
 
+    /** 
+     * @param line
+     * @return List<String>
+     */
     private static List<String> parseCSVLine(String line) {
         List<String> result = new ArrayList<>();
         StringBuilder current = new StringBuilder();
@@ -332,6 +351,10 @@ public class FileManager {
         return result;
     }
 
+    /** 
+     * @param filePath
+     * @param oggetti
+     */
     public static void salvaOggettiCSV(String filePath, List<? extends CSVWritable> oggetti) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (CSVWritable oggetto : oggetti) {
@@ -344,6 +367,11 @@ public class FileManager {
         }
     }
 
+    /** 
+     * @param filePath
+     * @param parser
+     * @return List<T>
+     */
     public static <T> List<T> caricaOggettiCSV(String filePath, Function<String[], T> parser) {
         List<T> lista = new ArrayList<>();
 
@@ -366,19 +394,31 @@ public class FileManager {
         return lista;
     }
 
+    /** 
+     * @return String
+     */
     // === Percorsi Getter ===
     public static String getFileRistoranti() {
         return FILE_RISTORANTI;
     }
 
+    /** 
+     * @return String
+     */
     public static String getFileUtenti() {
         return FILE_UTENTI;
     }
 
+    /** 
+     * @return String
+     */
     public static String getFileRecensioni() {
         return FILE_RECENSIONI;
     }
     
+    /** 
+     * @return String
+     */
     public static String getFileRistorantiGestiti() {
         return FILE_RISTORANTI_GESTITI;
     }

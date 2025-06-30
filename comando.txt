@@ -1,0 +1,2 @@
+javadoc -d Doc src\*.java
+per jar sezione javaProject, export jar

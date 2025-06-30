@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,58 +32,100 @@ public class Manager {
     private List<Cliente> clienti ;
     private List<Ristoratore> ristoratori;
     private Utente Logged;
+    /** 
+     * @return List<Utente>
+     */
     public List<Utente> getUtenti() {
         return utenti;
     }
 
+    /** 
+     * @param utenti
+     */
     public void setUtenti(List<Utente> utenti) {
         this.utenti = utenti;
     }
 
+    /** 
+     * @return List<Ristorante>
+     */
     public List<Ristorante> getRistoranti() {
         return ristoranti;
     }
 
+    /** 
+     * @param ristoranti
+     */
     public void setRistoranti(List<Ristorante> ristoranti) {
         this.ristoranti = ristoranti;
     }
 
+    /** 
+     * @return List<Recensione>
+     */
     public List<Recensione> getRecensioni() {
         return recensioni;
     }
 
+    /** 
+     * @param recensioni
+     */
     public void setRecensioni(List<Recensione> recensioni) {
         this.recensioni = recensioni;
     }
 
+    /** 
+     * @return List<Preferito>
+     */
     public List<Preferito> getPreferiti() {
         return preferiti;
     }
 
+    /** 
+     * @param preferiti
+     */
     public void setPreferiti(List<Preferito> preferiti) {
         this.preferiti = preferiti;
     }
 
+    /** 
+     * @return List<Preferito>
+     */
     public List<Preferito> getGestiti() {
         return gestiti;
     }
 
+    /** 
+     * @param gestiti
+     */
     public void setGestiti(List<Preferito> gestiti) {
         this.gestiti = gestiti;
     }
 
+    /** 
+     * @return List<Cliente>
+     */
     public List<Cliente> getClienti() {
         return clienti;
     }
 
+    /** 
+     * @param clienti
+     */
     public void setClienti(List<Cliente> clienti) {
         this.clienti = clienti;
     }
 
+    /** 
+     * @return List<Ristoratore>
+     */
     public List<Ristoratore> getRistoratori() {
         return ristoratori;
     }
 
+    /** 
+     * @param ristoratori
+     */
     public void setRistoratori(List<Ristoratore> ristoratori) {
         this.ristoratori = ristoratori;
     }
@@ -97,7 +140,6 @@ public class Manager {
         FileManager.inizializzaFile();
         this.ristoranti = FileManager.leggiRistorantiDaCSV();
         this.utenti = FileManager.leggiUtentiDaCSV();
-       
         this.recensioni = FileManager.leggiRecensioniDaCSV();
         this.preferiti = FileManager.leggiPreferitiDaCSV();
         this.gestiti = FileManager.leggiGestitiDaCSV();
@@ -109,6 +151,9 @@ public class Manager {
         
     }  
 
+    /** 
+     * @return List<Cliente>
+     */
     public List<Cliente> filtraClienti() {
         List<Cliente> c = new ArrayList<>();
         for (Utente utente : this.utenti) {
@@ -127,6 +172,9 @@ public class Manager {
         return c;
     }
     
+    /** 
+     * @return List<Ristoratore>
+     */
     public List<Ristoratore> filtraRistoratori() {
         List<Ristoratore> r = new ArrayList<>();
         for (Utente utente : this.utenti) {
@@ -145,6 +193,9 @@ public class Manager {
         return r;
     }
     
+    /** 
+     * @param utente
+     */
     public void registraUtente(Utente utente) {
         // Carica la lista esistente di utenti dal file CSV
         List<Utente> utenti = FileManager.caricaOggettiCSV(
@@ -176,6 +227,9 @@ public class Manager {
         System.out.println("Utente registrato con i seguenti dati: " + utente.toString());
     }
 
+    /** 
+     * @param ristorante
+     */
     public void aggiungiPreferitoAlClienteLoggato(Ristorante ristorante) {
         if (!(Logged instanceof Cliente)) {
             System.out.println("Solo un cliente può avere preferiti.");
@@ -205,6 +259,11 @@ public class Manager {
         }
     }
     
+    /** 
+     * @param ristorante
+     * @param voto
+     * @param commento
+     */
     public void aggiungiRecensione(Ristorante ristorante, int voto, String commento) {
     if (!(Logged instanceof Cliente)) {
         System.out.println("Solo i clienti possono aggiungere recensioni.");
@@ -240,6 +299,14 @@ public class Manager {
 
 
 
+    /** 
+     * @param citta
+     * @param tipoCucina
+     * @param f
+     * @param greenStar
+     * @param servizi
+     * @return List<Ristorante>
+     */
     public List<Ristorante> ricercaRistoranti(String citta, String tipoCucina, FasciaPrezzo f, String greenStar, boolean servizi) {
         List<Ristorante> temp = new ArrayList<>();
     
@@ -265,6 +332,10 @@ public class Manager {
         return temp;
     }
     
+    /** 
+     * @param username
+     * @param password
+     */
     public void login(String username, String password) {
         for (Utente utente : utenti) {
             if (utente.getUsername().equals(username) && utente.getPasswordCifrata().equals(password)) {
@@ -303,6 +374,9 @@ public class Manager {
     }
     
     
+    /** 
+     * @param utenteAutenticato
+     */
     private void completaUtenteLoggato(Utente utenteAutenticato) {
         if (utenteAutenticato instanceof Cliente) {
             for (Cliente c : clienti) {
@@ -408,13 +482,22 @@ public class Manager {
     }
     
 
+    /** 
+     * @return Utente
+     */
     public Utente getLogged() {
         return Logged;
     }
+    /** 
+     * @param logged
+     */
     public void setLogged(Utente logged) {
         Logged = logged;
     }
     
+    /** 
+     * @param sc
+     */
     public void modificaRecensione(Scanner sc) {
     if (!(Logged instanceof Cliente)) {
         System.out.println("Solo un cliente può modificare le proprie recensioni.");
@@ -474,6 +557,9 @@ public class Manager {
     System.out.println("Recensione modificata con successo.");
 }
 
+    /** 
+     * @param sc
+     */
     public void cancellaRecensione(Scanner sc) {
     if (!(Logged instanceof Cliente)) {
         System.out.println("Solo un cliente può cancellare le proprie recensioni.");
@@ -525,6 +611,9 @@ public class Manager {
     System.out.println("Recensione rimossa con successo.");
 }
 
+/** 
+ * @param sc
+ */
 public void inserisciRistorante(Scanner sc) {
     if (!(Logged instanceof Ristoratore)) {
         System.out.println("Solo un ristoratore può inserire un ristorante.");
@@ -535,91 +624,130 @@ public void inserisciRistorante(Scanner sc) {
 
     try {
         System.out.print("Nome del ristorante: ");
-        String nome = sc.nextLine();
+            String nome = sc.nextLine();
 
-        System.out.print("Indirizzo: ");
-        String indirizzo = sc.nextLine();
+            System.out.print("Indirizzo: ");
+            String indirizzo = sc.nextLine();
 
-        System.out.print("Citta': ");
-        String citta = sc.nextLine();
+            System.out.print("Città: ");
+            String citta = sc.nextLine();  // Numeri ammessi
 
-        System.out.print("Nazione: ");
-        String nazione = sc.nextLine();
+            System.out.print("Nazione: ");
+            String nazione = sc.nextLine();  // Numeri ammessi
 
-        System.out.print("Latitudine (es. 45.4642): ");
-        double lat = Double.parseDouble(sc.nextLine());
+            double lat = 0;
+            while (true) {
+                try {
+                    System.out.print("Latitudine (es. 45.4642): ");
+                    lat = Double.parseDouble(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Inserisci un numero valido per la latitudine.");
+                }
+            }
 
-        System.out.print("Longitudine (es. 9.1900): ");
-        double lon = Double.parseDouble(sc.nextLine());
+            double lon = 0;
+            while (true) {
+                try {
+                    System.out.print("Longitudine (es. 9.1900): ");
+                    lon = Double.parseDouble(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Inserisci un numero valido per la longitudine.");
+                }
+            }
 
-        System.out.print("Tipo di cucina: ");
-        String tipoCucina = sc.nextLine();
+            System.out.print("Tipo di cucina: ");
+            String tipoCucina = sc.nextLine();
 
-        System.out.print("Telefono: ");
-        String telefono = sc.nextLine();
+            String telefono;
+            while (true) {
+                System.out.print("Telefono: ");
+                telefono = sc.nextLine();
+                if (telefono.matches("[0-9+\\s()-]{5,20}")) break;
+                System.out.println("Inserisci un numero di telefono valido.");
+            }
 
-        System.out.print("URL guida (opzionale): ");
-        String url = sc.nextLine();
+            System.out.print("URL guida (opzionale): ");
+            String url = sc.nextLine();
 
-        System.out.print("Sito ufficiale (opzionale): ");
-        String website = sc.nextLine();
+            System.out.print("Sito ufficiale (opzionale): ");
+            String website = sc.nextLine();
 
-        System.out.print("Premio (es. '1 Star', 'Selected Restaurants', ecc.): ");
-        String award = sc.nextLine();
+            System.out.print("Premio (es. '1 Star', 'Selected Restaurants', ecc.): ");
+            String award = sc.nextLine();
 
-        System.out.print("Green Star (0 se non presente): ");
-        double greenStar = Double.parseDouble(sc.nextLine());
+            double greenStar = 0;
+            while (true) {
+                try {
+                    System.out.print("Green Star (0 se non presente): ");
+                    greenStar = Double.parseDouble(sc.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Inserisci un numero valido per la Green Star.");
+                }
+            }
 
-        System.out.print("Servizi disponibili? (true/false): ");
-        boolean servizi = Boolean.parseBoolean(sc.nextLine());
+            boolean servizi = false;
+            while (true) {
+                System.out.print("Servizi disponibili? (true/false): ");
+                String inputServizi = sc.nextLine().toLowerCase();
+                if (inputServizi.equals("true") || inputServizi.equals("false")) {
+                    servizi = Boolean.parseBoolean(inputServizi);
+                    break;
+                } else {
+                    System.out.println("Inserisci 'true' o 'false'.");
+                }
+            }
 
-        System.out.print("Descrizione: ");
-        String descrizione = sc.nextLine();
+            System.out.print("Descrizione: ");
+            String descrizione = sc.nextLine();
 
-        
+            FasciaPrezzo fasciaPrezzo = null;
+            while (fasciaPrezzo == null) {
+                System.out.print("Fascia di prezzo (economica, media, costosa, lusso oppure €, €€, €€€, €€€€): ");
+                String fasciaInput = sc.nextLine().trim();
+                fasciaPrezzo = FasciaPrezzo.fromInput(fasciaInput);
+                if (fasciaPrezzo == null) {
+                    System.out.println("Fascia non valida. Inserire: economica, media, costosa, lusso oppure simboli da € a €€€€.");
+                }
+            }
 
-        System.out.print("Fascia di prezzo (economica, media, costosa, lusso oppure €, €€, €€€, €€€€): ");
-        String fasciaInput = sc.nextLine().trim();
+            // Crea ristorante
+            Ristorante nuovo = new Ristorante(
+                nome, nazione, citta, indirizzo,
+                lat, lon, tipoCucina, telefono,
+                url, website, award, greenStar,
+                servizi, descrizione, fasciaPrezzo
+            );
+            nuovo.setFasciaPrezzo(fasciaPrezzo);
 
-        FasciaPrezzo fasciaPrezzo = FasciaPrezzo.fromInput(fasciaInput);
-        if (fasciaPrezzo == null) {
-            System.out.println("Fascia non valida. Inserire: economica, media, costosa, lusso oppure simboli da € a €€€€");
-            return;
-        }
+            // Aggiungi a lista globale
+            ristoranti.add(nuovo);
 
+            // Aggiungi alla lista gestita dal ristoratore
+            if (ristoratore.getRistorantiGestiti() == null)
+                ristoratore.setRistorantiGestiti(new ArrayList<>());
+            ristoratore.getRistorantiGestiti().add(nuovo);
 
-        // Crea ristorante
-        Ristorante nuovo = new Ristorante(
-            nome, nazione, citta, indirizzo,
-            lat, lon, tipoCucina, telefono,
-            url, website, award, greenStar,
-            servizi, descrizione, fasciaPrezzo
-        );
-        nuovo.setFasciaPrezzo(fasciaPrezzo);
+            // Aggiungi anche alla lista gestiti globale
+            gestiti.add(new Preferito(ristoratore.getUsername(), nuovo.getNome()));
 
-        // Aggiungi a lista globale
-        ristoranti.add(nuovo);
+            // Salva su file
+            FileManager.salvaOggettiCSV(FileManager.getFileRistorantiGestiti(), gestiti);
+            FileManager.salvaOggettiCSV(FileManager.getCsvRistorantiIniziali(), ristoranti);
 
-        // Aggiungi alla lista gestita dal ristoratore
-        if (ristoratore.getRistorantiGestiti() == null)
-            ristoratore.setRistorantiGestiti(new ArrayList<>());
-        ristoratore.getRistorantiGestiti().add(nuovo);
+            System.out.println("Ristorante inserito con successo!");
 
-        // Aggiungi anche alla lista gestiti globale
-        gestiti.add(new Preferito(ristoratore.getUsername(), nuovo.getNome()));
-
-        // Salva tutto su file
-        
-        FileManager.salvaOggettiCSV(FileManager.getFileRistorantiGestiti(), gestiti);
-        FileManager.salvaOggettiCSV(FileManager.getCsvRistorantiIniziali(), ristoranti);
-
-        System.out.println("Ristorante inserito con successo!");
 
     } catch (Exception e) {
         System.out.println("Errore: " + e.getMessage());
     }
 }
 
+/** 
+ * @param sc
+ */
 public void visualizzaERispondiRecensioni(Scanner sc) {
     if (!(Logged instanceof Ristoratore)) {
         System.out.println(" Solo un ristoratore può accedere a questa funzione.");
@@ -708,12 +836,11 @@ public void statisticheRistoranti() {
 
     System.out.println("Statistiche dei tuoi ristoranti:");
 
-    for (Ristorante ristorante : gestiti) {
-        String nome = ristorante.getNome();
-
+    for (Ristorante r : gestiti) {
+        String nome = r.getNome();
         List<Recensione> recensioniRistorante = recensioni.stream()
-            .filter(r -> r.getRistorante().equalsIgnoreCase(nome))
-            .toList();
+            .filter(rec -> rec.getRistorante().equalsIgnoreCase(nome))
+            .collect(Collectors.toList());
 
         int numero = recensioniRistorante.size();
         double media = numero > 0
@@ -726,6 +853,56 @@ public void statisticheRistoranti() {
         System.out.println();
     }
 }
+
+/** 
+ * @param username
+ * @return boolean
+ */
+public boolean usernameEsiste(String username) {
+    for (Utente u : utenti) {
+        if (u.getUsername().equalsIgnoreCase(username)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/** 
+ * @param ristoratore
+ */
+public void mostraRecensioniRistorantiGestiti(Ristoratore ristoratore) {
+  
+    throw new UnsupportedOperationException("Unimplemented method 'mostraRecensioniRistorantiGestiti'");
+}
+
+/** 
+ * @param ristoratore
+ * @param sc
+ */
+public void eliminaRistorante(Ristoratore ristoratore, Scanner sc) {
+    
+    throw new UnsupportedOperationException("Unimplemented method 'eliminaRistorante'");
+}
+
+/** 
+ * @param ristoratore
+ * @param sc
+ */
+public void modificaRistorante(Ristoratore ristoratore, Scanner sc) {
+   
+    throw new UnsupportedOperationException("Unimplemented method 'modificaRistorante'");
+}
+
+/** 
+ * @param ristoratore
+ * @param sc
+ */
+public void aggiungiRistorante(Ristoratore ristoratore, Scanner sc) {
+    
+    throw new UnsupportedOperationException("Unimplemented method 'aggiungiRistorante'");
+}
+
+
 
 
    

@@ -161,4 +161,11 @@ public class Recensione implements CSVWritable {
                 (data != null ? data.toString() : "1900-01-01") + "," +
                 (rispostaRistoratore != null ? rispostaRistoratore.replace(",", ";") : "");
     }
+
+    /** 
+     * @return Object
+     */
+    public Object getUsername() {
+        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
+    }
 }
